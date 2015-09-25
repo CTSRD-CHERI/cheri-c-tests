@@ -19,6 +19,9 @@ TEST_LDFLAGS=-cheri-linker -lc -lmalloc_simple
 
 all: $(TESTS)
 
+install: all
+	cp ${TESTS} ${DESTDIR}/
+
 %: %.c test_runtime.o
 	${SDK_ROOT}/bin/clang test_runtime.o ${TEST_CFLAGS} ${TEST_LDFLAGS} $< -o $@
 
