@@ -51,7 +51,6 @@ fn f = test_fn_ptr;
 
 BEGIN_TEST
 	// Check that the initialisation of a pointer to a global worked:
-	assert((void*)bar == &foo);
 	assert(bar[0] == '0');
 	assert(bar[1] == '1');
 	assert(bar[2] == '2');
@@ -63,6 +62,7 @@ BEGIN_TEST
 	// At least for small allocations, this pointer should be exactly the size
 	// of the global.
 	assert(__builtin_memcap_length_get((void*)bar) == sizeof(foo));
+	assert((void*)bar == &foo);
 	// Check that the two function pointers point to the correct place.
 	assert(f == test_fn_ptr);
 	assert(x.f == test_fn_ptr);
