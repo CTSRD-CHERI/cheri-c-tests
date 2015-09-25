@@ -29,7 +29,7 @@
  */
 #include "cheri_c_test.h"
 
-int testfn(void);
+void testfn(void);
 void foo(void)
 {
 	void *ret = __builtin_return_address(0);
