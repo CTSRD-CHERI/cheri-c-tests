@@ -1,5 +1,5 @@
 rm -f *.core 
-TESTS="capcmp capret capretaddr init intcap printf smallint stack_cap string va_args va_copy va_die"
+TESTS="capcmp capret capretaddr init intcap memcpy printf smallint stack_cap string va_args va_copy va_die"
 PASS_COUNT=0
 FAIL_COUNT=0
 FAILURES=""

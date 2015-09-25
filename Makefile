@@ -5,6 +5,7 @@ TESTS=\
 	capretaddr\
 	init\
 	intcap\
+	memcpy\
 	printf\
 	smallint\
 	stack_cap\
@@ -13,7 +14,7 @@ TESTS=\
 	va_copy\
 	va_die
 
-TEST_CFLAGS=-mabi=sandbox -cheri-linker -Werror
+TEST_CFLAGS=-mabi=sandbox -cheri-linker -Werror -O3
 TEST_LDFLAGS=-cheri-linker -lc -lmalloc_simple
 
 
