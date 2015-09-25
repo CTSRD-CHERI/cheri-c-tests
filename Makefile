@@ -22,7 +22,7 @@ all: $(TESTS)
 install: all
 	cp ${TESTS} ${DESTDIR}/
 
-%: %.c test_runtime.o
+%: %.c test_runtime.o Makefile
 	${SDK_ROOT}/bin/clang test_runtime.o ${TEST_CFLAGS} ${TEST_LDFLAGS} $< -o $@
 
 test_runtime.o: test_runtime.c
