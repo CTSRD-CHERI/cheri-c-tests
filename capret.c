@@ -28,6 +28,8 @@
  * SUCH DAMAGE.
  */
 
+#include "cheri_c_test.h"
+
 void foo(void );
 
 #ifdef __mips__
@@ -51,8 +53,6 @@ __asm__(
 #error This test checks that return addresses are capabilities.
 #endif
 
-int main(void)
-{
+BEGIN_TEST
 	foo();
-	return 0;
-}
+END_TEST
