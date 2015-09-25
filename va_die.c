@@ -21,6 +21,7 @@ void printstuff(char *fmt, ...)
 		}
 		assert(x == i);
 	}
+	assert(faulted);
 	va_end(ap);
 }
 
