@@ -39,7 +39,15 @@
 #include <ucontext.h>
 #include "cheri_c_test.h"
 
-cheri_handler test_fault_handler;
+
+static void handler(void *capreg, int cause)
+{
+	faults++;
+}
+
+
+cheri_handler test_fault_handler = handler;
+volatile int faults;
 
 
 /**

@@ -30,11 +30,6 @@
 #include <stdarg.h>
 #include "cheri_c_test.h"
 
-static volatile int faulted;
-static void handler(void *capreg, int cause)
-{
-	faulted++;
-}
 int foo(__output int* x)
 {
 	// Check that a load causes a fault.  This will trap to the handler and
@@ -46,11 +41,10 @@ int foo(__output int* x)
 }
 
 BEGIN_TEST
-	test_fault_handler = handler;
 	int x = 47;
 	foo(&x);
 	// Check that the store succeeded
 	assert(x == 42);
 	// Check that the fault actually occurred
-	assert(faulted == 1);
+	assert(faults == 1);
 END_TEST

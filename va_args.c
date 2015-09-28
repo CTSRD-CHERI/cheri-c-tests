@@ -30,11 +30,6 @@
 #include <stdarg.h>
 #include "cheri_c_test.h"
 
-static volatile int faulted;
-static void handler(void *capreg, int cause)
-{
-	faulted = 1;
-}
 char str[] = "012345678901234567890";
 volatile void *ptrs[] = 
 {
@@ -79,6 +74,6 @@ void printstuff(int argpairs, ...)
 }
 
 BEGIN_TEST
-	test_fault_handler = handler;
 	printstuff(8, 0,ptrs[0],1,ptrs[1],2,ptrs[2],3,ptrs[3],4,ptrs[4],5,ptrs[5],6,ptrs[6],7,ptrs[7]);
+	assert(faults == 0);
 END_TEST

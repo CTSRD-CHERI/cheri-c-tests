@@ -37,6 +37,7 @@
 typedef void (*cheri_handler)(void *, int);
 
 extern cheri_handler test_fault_handler;
+extern volatile int faults;
 
 void test_setup(void);
 

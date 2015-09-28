@@ -30,26 +30,19 @@
 #include <stdarg.h>
 #include "cheri_c_test.h"
 
-static volatile int faulted;
-static void handler(void *capreg, int cause)
-{
-	faulted++;
-}
-
 typedef void(*fnptr)(void);
 int a;
 fnptr not_a_function = (fnptr)&a;
 
 BEGIN_TEST
-	test_fault_handler = handler;
 	// Try calling something that is not a function pointer
 	fnptr x = (fnptr)(__uintcap_t)42;
 	// Function pointers derived from intcap_t should not be valid and should
 	// trap.
 	x();
-	assert(faulted == 1);
+	assert(faults == 1);
 	// Function pointers globally initialised with non-pointer values should
 	// not be executable and should trap.
 	not_a_function();
-	assert(faulted == 2);
+	assert(faults == 2);
 END_TEST
