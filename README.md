@@ -15,7 +15,7 @@ The test suite currently requires GNU Make to build (patches to make it work
 with bmake are *very* welcome!).  You will need to ensure that you have GNU
 Make and the CHERI SDK installed before starting.  Then, run:
 
-	$ gmake SDK_ROOT=path/to/sdk DESTDIR=path/to/install
+	$ gmake install SDK_ROOT=path/to/sdk DESTDIR=path/to/install
 
 This will build all of the tests and install them, along with a `run.sh`
 script, in `path/to/install`.  Ideally, the install location is an NFS-mounted
