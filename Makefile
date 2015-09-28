@@ -4,9 +4,11 @@ TESTS=\
 	capret\
 	capretaddr\
 	init\
+	input\
 	intcap\
 	memcpy\
 	memmove\
+	output\
 	printf\
 	smallint\
 	stack_cap\
