@@ -1,5 +1,6 @@
 SDK_ROOT ?= ~/sdk/
 TESTS=\
+	badcall\
 	capcmp\
 	capret\
 	capretaddr\
