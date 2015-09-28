@@ -1,11 +1,12 @@
 SDK_ROOT ?= ~/sdk/
 TESTS=\
-	  capcmp\
+	capcmp\
 	capret\
 	capretaddr\
 	init\
 	intcap\
 	memcpy\
+	memmove\
 	printf\
 	smallint\
 	stack_cap\
@@ -18,7 +19,7 @@ TEST_CFLAGS=-mabi=sandbox -cheri-linker -Werror -O3
 TEST_LDFLAGS=-cheri-linker -lc -lmalloc_simple
 
 
-all: $(TESTS)
+all: $(TESTS) run.sh
 
 install: all
 	cp ${TESTS} run.sh ${DESTDIR}/
@@ -29,7 +30,11 @@ install: all
 test_runtime.o: test_runtime.c
 	${SDK_ROOT}/bin/clang -c ${TEST_CFLAGS} $< -o $@
 
+run.sh: run.sh.in
+	sed 's/{INCLUDE_TESTS}/${TESTS}/g' run.sh.in > run.sh
+
 clean:
-	rm -f ${TESTS} test_runtime.o
+	rm -f ${TESTS} test_runtime.o run.sh
+
 
 %: %.c
