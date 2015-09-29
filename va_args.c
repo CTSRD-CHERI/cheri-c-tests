@@ -62,6 +62,8 @@ void printstuff(int argpairs, ...)
 	// Check that the length corresponds to the number of arguments, with
 	// appropriate padding.
 	assert(__builtin_memcap_length_get(ap) == argpairs * sizeof(void*) * 2);
+	ASSERT_HAS_NOT_PERMISSION(ap, STORE);
+	ASSERT_HAS_NOT_PERMISSION(ap, STORE_CAPABILITY);
 	for (int i=0 ; i<argpairs ; i++)
 	{
 		int x = va_arg(ap, int);
