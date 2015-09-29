@@ -10,6 +10,7 @@ TESTS=\
 	malloc\
 	memcpy\
 	memmove\
+	null\
 	output\
 	printf\
 	smallint\
