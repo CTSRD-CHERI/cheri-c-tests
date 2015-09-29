@@ -13,6 +13,7 @@ TESTS=\
 	null\
 	output\
 	printf\
+	qsort\
 	smallint\
 	stack_cap\
 	string\
