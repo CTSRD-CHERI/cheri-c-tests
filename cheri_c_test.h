@@ -51,3 +51,9 @@ void test_setup(void);
 #define XFAIL(x) do {} while(0)
 #endif
 
+#define ASSERT_HAS_PERMISSION(x, perm) \
+	assert((__builtin_memcap_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __) == __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __)
+
+#define ASSERT_HAS_NOT_PERMISSION(x, perm) \
+	assert((__builtin_memcap_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __) == 0)
+
