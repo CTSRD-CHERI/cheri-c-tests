@@ -7,6 +7,7 @@ TESTS=\
 	init\
 	input\
 	intcap\
+	malloc\
 	memcpy\
 	memmove\
 	output\
