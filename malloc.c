@@ -34,11 +34,13 @@ void check_allocation(void *a, long size)
 {
 	assert(__builtin_memcap_tag_get(a));
 	assert(__builtin_memcap_length_get(a) - __builtin_memcap_offset_get(a) >= size);
-	assert((__builtin_memcap_perms_get(a) & __CHERI_CAP_PERMISSION_PERMIT_EXECUTE__) == __CHERI_CAP_PERMISSION_PERMIT_EXECUTE__);
-	assert((__builtin_memcap_perms_get(a) & __CHERI_CAP_PERMISSION_PERMIT_STORE_CAPABILITY__) == __CHERI_CAP_PERMISSION_PERMIT_STORE_CAPABILITY__);
-	assert((__builtin_memcap_perms_get(a) & __CHERI_CAP_PERMISSION_PERMIT_STORE__) == __CHERI_CAP_PERMISSION_PERMIT_STORE__);
-	assert((__builtin_memcap_perms_get(a) & __CHERI_CAP_PERMISSION_PERMIT_LOAD_CAPABILITY__) == __CHERI_CAP_PERMISSION_PERMIT_LOAD_CAPABILITY__);
-	assert((__builtin_memcap_perms_get(a) & __CHERI_CAP_PERMISSION_PERMIT_LOAD__) == __CHERI_CAP_PERMISSION_PERMIT_LOAD__);
+#ifdef INCLUDE_XFAIL
+	ASSERT_HAS_NOT_PERMISSION(a, EXECUTE);
+#endif
+	ASSERT_HAS_PERMISSION(a, STORE_CAPABILITY);
+	ASSERT_HAS_PERMISSION(a, STORE);
+	ASSERT_HAS_PERMISSION(a, LOAD_CAPABILITY);
+	ASSERT_HAS_PERMISSION(a, LOAD);
 	// There must be enough space after the returned pointer for the object (more is permitted)
 	assert(__builtin_memcap_length_get(a) - __builtin_memcap_offset_get(a) >= size);
 	XFAIL(__builtin_memcap_offset_get(a) == 0);

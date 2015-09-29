@@ -34,10 +34,10 @@ int foo(__input int* x)
 {
 	// Check that we can read from the variable
 	int y = *(int*)x;
-	assert((__builtin_memcap_perms_get(x) & __CHERI_CAP_PERMISSION_PERMIT_STORE_CAPABILITY__) == 0);
-	assert((__builtin_memcap_perms_get(x) & __CHERI_CAP_PERMISSION_PERMIT_STORE__) == 0);
-	assert((__builtin_memcap_perms_get(x) & __CHERI_CAP_PERMISSION_PERMIT_LOAD_CAPABILITY__) == __CHERI_CAP_PERMISSION_PERMIT_LOAD_CAPABILITY__);
-	assert((__builtin_memcap_perms_get(x) & __CHERI_CAP_PERMISSION_PERMIT_LOAD__) == __CHERI_CAP_PERMISSION_PERMIT_LOAD__);
+	ASSERT_HAS_NOT_PERMISSION(x, STORE);
+	ASSERT_HAS_NOT_PERMISSION(x, STORE_CAPABILITY);
+	ASSERT_HAS_PERMISSION(x, LOAD);
+	ASSERT_HAS_PERMISSION(x, LOAD_CAPABILITY);
 	// The store should trap
 	*x = 42;
 	return y;

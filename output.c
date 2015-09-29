@@ -35,10 +35,10 @@ int foo(__output int* x)
 	// Check that a load causes a fault.  This will trap to the handler and
 	// increment the fault count.
 	int y = *(int*)x;
-	assert((__builtin_memcap_perms_get(x) & __CHERI_CAP_PERMISSION_PERMIT_LOAD_CAPABILITY__) == 0);
-	assert((__builtin_memcap_perms_get(x) & __CHERI_CAP_PERMISSION_PERMIT_LOAD__) == 0);
-	assert((__builtin_memcap_perms_get(x) & __CHERI_CAP_PERMISSION_PERMIT_STORE_CAPABILITY__) == __CHERI_CAP_PERMISSION_PERMIT_STORE_CAPABILITY__);
-	assert((__builtin_memcap_perms_get(x) & __CHERI_CAP_PERMISSION_PERMIT_STORE__) == __CHERI_CAP_PERMISSION_PERMIT_STORE__);
+	ASSERT_HAS_NOT_PERMISSION(x, LOAD);
+	ASSERT_HAS_NOT_PERMISSION(x, LOAD_CAPABILITY);
+	ASSERT_HAS_PERMISSION(x, STORE);
+	ASSERT_HAS_PERMISSION(x, STORE_CAPABILITY);
 	// The store should succeed
 	*x = 42;
 	return y;
