@@ -28,22 +28,20 @@
  * SUCH DAMAGE.
  */
 #include <stdlib.h>
-#include <stdio.h>
 #include "cheri_c_test.h"
-
-     void *
-	      valloc(size_t size);
-
 
 void check_allocation(void *a, long size)
 {
 	assert(__builtin_memcap_tag_get(a));
+	assert(__builtin_memcap_length_get(a) - __builtin_memcap_offset_get(a) >= size);
 	assert((__builtin_memcap_perms_get(a) & __CHERI_CAP_PERMISSION_PERMIT_EXECUTE__) == __CHERI_CAP_PERMISSION_PERMIT_EXECUTE__);
 	assert((__builtin_memcap_perms_get(a) & __CHERI_CAP_PERMISSION_PERMIT_STORE_CAPABILITY__) == __CHERI_CAP_PERMISSION_PERMIT_STORE_CAPABILITY__);
 	assert((__builtin_memcap_perms_get(a) & __CHERI_CAP_PERMISSION_PERMIT_STORE__) == __CHERI_CAP_PERMISSION_PERMIT_STORE__);
 	assert((__builtin_memcap_perms_get(a) & __CHERI_CAP_PERMISSION_PERMIT_LOAD_CAPABILITY__) == __CHERI_CAP_PERMISSION_PERMIT_LOAD_CAPABILITY__);
 	assert((__builtin_memcap_perms_get(a) & __CHERI_CAP_PERMISSION_PERMIT_LOAD__) == __CHERI_CAP_PERMISSION_PERMIT_LOAD__);
-	assert(__builtin_memcap_length_get(a) >= size);
+	// There must be enough space after the returned pointer for the object (more is permitted)
+	assert(__builtin_memcap_length_get(a) - __builtin_memcap_offset_get(a) >= size);
+	XFAIL(__builtin_memcap_offset_get(a) == 0);
 	assert((__builtin_memcap_base_get(a) & (sizeof(void*) - 1)) == 0);
 }
 
@@ -62,9 +60,15 @@ void check_size(long size)
 }
 
 BEGIN_TEST
-	//check_size(128);
-	// 1MiB
-	check_size(1048576);
-	// 8MiB
-	//check_size(8388608);
+#ifdef SLOW_TESTS
+	// Malloc and free are fast, but faulting in and checking that every page
+	// really is zero is *very* slow.
+	const int max = 27;
+#else
+	const int max = 20;
+#endif
+	for (int i=1; i <= max ; i++)
+	{
+		check_size(1<<i);
+	}
 END_TEST
