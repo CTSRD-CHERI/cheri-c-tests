@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2015 David Chisnall
+ * Copyright (c) 2012-2015 David Chisnall
  * All rights reserved.
  *
  * This software was developed by SRI International and the University of
@@ -27,41 +27,36 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-#include <assert.h>
-#include <stdint.h>
+#include "cheri_c_test.h"
 
-#ifndef __FreeBSD__
-#warning The test suite is currently expected to work only on FreeBSD.
-#endif
+union ptr_or_data
+{
+	void* ptr;
+	long long words[4];
+};
 
-typedef void (*cheri_handler)(void *, int);
+char buffer[] = "1234567";
+char *ptr = buffer;
 
-extern cheri_handler test_fault_handler;
-extern volatile int faults;
-
-void test_setup(void);
-
-static const int cheri_fault_length = 1;
-static const int cheri_fault_tag = 2;
-static const int cheri_fault_seal = 3;
-static const int cheri_fault_load = 0x12;
-static const int cheri_fault_store = 0x13;
-static const int cheri_fault_load_capability = 0x14;
-static const int cheri_fault_store_capability = 0x16;
-
-#define BEGIN_TEST \
-	int main(void) { test_setup(); 
-#define END_TEST return 0; }
-
-#ifdef INCLUDE_XFAIL
-#define XFAIL(x) assert(x)
-#else
-#define XFAIL(x) do {} while(0)
-#endif
-
-#define ASSERT_HAS_PERMISSION(x, perm) \
-	assert((__builtin_memcap_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __) == __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __)
-
-#define ASSERT_HAS_NOT_PERMISSION(x, perm) \
-	assert((__builtin_memcap_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __) == 0)
+BEGIN_TEST
+	// Check that overwriting a capability in memory gives you something that
+	// is not a valid capability.
+	// Note that this needs to be volatile, as otherwise the aliasing rules in
+	// C permit the compiler to treat the loads and stores as separate memory
+	// locations and for the writes to be ordered after the reads.
+	volatile union ptr_or_data p;
+	p.ptr = ptr;
+	assert(__builtin_memcap_length_get(p.ptr) == 8);
+	assert(__builtin_memcap_tag_get(p.ptr) == 1);
+	if (sizeof(void*) == 32)
+	{
+		p.words[3] = 400;
+		assert(__builtin_memcap_length_get(p.ptr) == 400);
+	}
+	else
+	{
+		p.words[0] = 400;
+	}
+	assert(__builtin_memcap_tag_get(p.ptr) == 0);
+END_TEST
 

@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2015 David Chisnall
+ * Copyright (c) 2012-2015 David Chisnall
  * All rights reserved.
  *
  * This software was developed by SRI International and the University of
@@ -27,41 +27,25 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-#include <assert.h>
-#include <stdint.h>
+#include <stdlib.h>
+#include "cheri_c_test.h"
 
-#ifndef __FreeBSD__
-#warning The test suite is currently expected to work only on FreeBSD.
-#endif
+static void handler(void *capreg, int cause)
+{
+	assert(cause == cheri_fault_length);
+	faults++;
+}
 
-typedef void (*cheri_handler)(void *, int);
-
-extern cheri_handler test_fault_handler;
-extern volatile int faults;
-
-void test_setup(void);
-
-static const int cheri_fault_length = 1;
-static const int cheri_fault_tag = 2;
-static const int cheri_fault_seal = 3;
-static const int cheri_fault_load = 0x12;
-static const int cheri_fault_store = 0x13;
-static const int cheri_fault_load_capability = 0x14;
-static const int cheri_fault_store_capability = 0x16;
-
-#define BEGIN_TEST \
-	int main(void) { test_setup(); 
-#define END_TEST return 0; }
-
-#ifdef INCLUDE_XFAIL
-#define XFAIL(x) assert(x)
-#else
-#define XFAIL(x) do {} while(0)
-#endif
-
-#define ASSERT_HAS_PERMISSION(x, perm) \
-	assert((__builtin_memcap_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __) == __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __)
-
-#define ASSERT_HAS_NOT_PERMISSION(x, perm) \
-	assert((__builtin_memcap_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __) == 0)
+BEGIN_TEST
+	test_fault_handler = handler;
+	int count = 8;
+	char buffer[count];
+	int *x = (int*)buffer;
+	assert(__builtin_memcap_length_get(x) == count);
+	for (int i=0 ; i<count ; i++)
+	{
+		x[i] = i;
+	}
+	assert(faults == count - (count  / sizeof(int)));
+END_TEST
 

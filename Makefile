@@ -1,5 +1,6 @@
 SDK_ROOT ?= ~/sdk/
 TESTS=\
+	array\
 	badcall\
 	capcmp\
 	capret\
@@ -17,6 +18,7 @@ TESTS=\
 	smallint\
 	stack_cap\
 	string\
+	union\
 	va_args\
 	va_copy\
 	va_die
