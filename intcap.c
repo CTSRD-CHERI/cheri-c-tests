@@ -30,6 +30,7 @@
 #include "cheri_c_test.h"
 
 volatile __intcap_t tmp;
+volatile __intcap_t one = 1;
 
 BEGIN_TEST
 	char str[] = "0123456789";
@@ -54,4 +55,5 @@ BEGIN_TEST
 	assert(__builtin_memcap_offset_get((void*)foo) == 5);
 	// Valid capabilities are strictly ordered after invalid ones
 	assert(0xffffffffffffffffULL < foo);
+	assert(one == 1);
 END_TEST
