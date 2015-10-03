@@ -15,6 +15,7 @@ TESTS=\
 	output\
 	printf\
 	qsort\
+	setjmp\
 	smallint\
 	stack_cap\
 	string\
