@@ -1,3 +1,6 @@
+.SUFFIXES:
+.SUFFIXES: .c .o .dump .s
+
 SDK_ROOT ?= ~/sdk/
 TESTS=\
 	array\
@@ -35,6 +38,12 @@ install: all
 
 %: %.c test_runtime.o Makefile
 	${SDK_ROOT}/bin/clang test_runtime.o ${TEST_CFLAGS} ${TEST_LDFLAGS} $< -o $@
+
+%.s: %.c Makefile
+	${SDK_ROOT}/bin/clang ${TEST_CFLAGS} -S $< -o $@
+
+%.dump: %
+	${SDK_ROOT}/bin/llvm-objdump -triple cheri-unknown-freebsd -d $< > $@
 
 test_runtime.o: test_runtime.c
 	${SDK_ROOT}/bin/clang -c ${TEST_CFLAGS} $< -o $@
