@@ -36,7 +36,7 @@ static jmp_buf buf;
 
 void dolongjump(void)
 {
-	assert(position == 2);
+	assert(position == 3);
 	position++;
 	printf("longjmp!\n");
 	longjmp(buf, 2);
@@ -50,17 +50,16 @@ void dosetjump(void)
 	int result = setjmp(buf);
 	if (result == 0)
 	{
+		assert(position == 2);
 		position++;
 		dolongjump();
 	}
-	assert(position == 3);
+	assert(position == 4);
 }
 
 BEGIN_TEST
 	assert(position == 0);
 	position++;
-#ifdef INCLUDE_XFAIL
 	dosetjump();
-#endif
 END_TEST
 
