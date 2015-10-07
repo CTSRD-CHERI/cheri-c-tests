@@ -4,6 +4,7 @@
 SDK_ROOT ?= ~/sdk/
 TESTS=\
 	array\
+	atomic\
 	badcall\
 	capcmp\
 	capret\
