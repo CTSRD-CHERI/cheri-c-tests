@@ -1,5 +1,5 @@
 .SUFFIXES:
-.SUFFIXES: .c .o .dump .s
+.SUFFIXES: .c .o .dump .s .ll
 
 SDK_ROOT ?= ~/sdk/
 TESTS=\
@@ -38,6 +38,9 @@ install: all
 
 %: %.c test_runtime.o Makefile
 	${SDK_ROOT}/bin/clang test_runtime.o ${TEST_CFLAGS} ${TEST_LDFLAGS} $< -o $@
+
+%.ll: %.c Makefile
+	${SDK_ROOT}/bin/clang ${TEST_CFLAGS} -S $< -o $@ -emit-llvm
 
 %.s: %.c Makefile
 	${SDK_ROOT}/bin/clang ${TEST_CFLAGS} -S $< -o $@
