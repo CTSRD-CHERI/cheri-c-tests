@@ -29,7 +29,6 @@
  */
 #include "cheri_c_test.h"
 #include <setjmp.h>
-#include <stdio.h>
 
 static int position;
 static jmp_buf buf;
@@ -38,7 +37,6 @@ void dolongjump(void)
 {
 	assert(position == 3);
 	position++;
-	printf("longjmp!\n");
 	longjmp(buf, 2);
 }
 
@@ -46,7 +44,6 @@ void dosetjump(void)
 {
 	assert(position == 1);
 	position++;
-	printf("setjmp!\n");
 	int result = setjmp(buf);
 	if (result == 0)
 	{
