@@ -11,6 +11,7 @@ TESTS=\
 	capretaddr\
 	init\
 	input\
+	int64math\
 	intcap\
 	malloc\
 	memcpy\
@@ -23,6 +24,8 @@ TESTS=\
 	smallint\
 	stack_cap\
 	string\
+	uint64math\
+	uintcapmath\
 	union\
 	va_args\
 	va_copy\
@@ -60,3 +63,8 @@ clean:
 
 
 %: %.c
+
+# inc64math.c, intcapmath.c, and uint64math.c include uintcapmath.c
+int64math:	uintcapmath.c
+intcapmath:	uintcapmath.c
+uint64math:	uintcapmath.c
