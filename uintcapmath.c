@@ -72,7 +72,6 @@ BEGIN_TEST
 	assert(one != 3);
 	assert(onehundred != twofivesix);
 
-#if defined(INCLUDE_XFAIL) || defined(_TEST_REAL_INTS)
 	assert(!zero);
 
 	assert(one && 1);
@@ -82,7 +81,6 @@ BEGIN_TEST
 	assert(one || 1);
 	assert(0 || one);
 	assert(zero || onehundred);
-#endif
 
 	target = 0;
 	target = onehundred + 2;
@@ -197,10 +195,8 @@ BEGIN_TEST
 	target %= onehundred;
 	assert(target == 5);
 
-#if defined(INCLUDE_XFAIL) || defined(_TEST_REAL_INTS)
 	target = zero ? one : 2;
 	assert(target == 2);
-#endif
 	target = one ? 3 : onehundred;
 	assert(target == 3);
 	target = 1 ? onehundred : twofivesix;
