@@ -69,6 +69,7 @@ void printstuff(int argpairs, ...)
 		int x = va_arg(ap, int);
 		char *p = va_arg(ap, void*);
 		assert(x == i);
+		assert(__builtin_memcap_tag_get(p));
 		assert(p == ptrs[i]);
 		assert(*p = str[i]);
 	}
