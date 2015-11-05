@@ -9,6 +9,7 @@ TESTS=\
 	capcmp\
 	capret\
 	capretaddr\
+	funptr\
 	init\
 	input\
 	int64math\
