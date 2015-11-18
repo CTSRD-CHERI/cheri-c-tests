@@ -1,5 +1,6 @@
 /*-
  * Copyright (c) 2015 David Chisnall
+ * Copyright (c) 2015 SRI International
  * All rights reserved.
  *
  * This software was developed by SRI International and the University of
@@ -54,6 +55,7 @@ volatile void *ptrs[] =
 	&str[18],
 	&str[19]
 };
+int gint;;
 
 void printstuff(int argpairs, ...)
 {
@@ -76,7 +78,31 @@ void printstuff(int argpairs, ...)
 	va_end(ap);
 }
 
+typedef void (*inc_t)(void);
+
+void inc(void)
+{
+	gint++;
+}
+
+void check_fp(int intarg, ...)
+{
+	inc_t incfp;
+	va_list ap;
+	va_start(ap, intarg);
+	// Check that we've been passed a single function pointer sized argument
+#ifdef INCLUDE_XFAIL
+	assert(__builtin_memcap_length_get(ap) == sizeof(void *));
+	incfp = va_arg(ap, inc_t);
+	for (int i = 0; i < intarg; i++)
+		incfp();
+	assert(gint == intarg);
+#endif
+	va_end(ap);
+}
+
 BEGIN_TEST
 	printstuff(8, 0,ptrs[0],1,ptrs[1],2,ptrs[2],3,ptrs[3],4,ptrs[4],5,ptrs[5],6,ptrs[6],7,ptrs[7]);
+	check_fp(3, &inc);
 	assert(faults == 0);
 END_TEST
