@@ -41,9 +41,9 @@ void check_allocation(void *a, long size)
 	ASSERT_HAS_PERMISSION(a, STORE);
 	ASSERT_HAS_PERMISSION(a, LOAD_CAPABILITY);
 	ASSERT_HAS_PERMISSION(a, LOAD);
-	// There must be enough space after the returned pointer for the object (more is permitted)
-	assert(__builtin_memcap_length_get(a) - __builtin_memcap_offset_get(a) >= size);
-	XFAIL(__builtin_memcap_offset_get(a) == 0);
+	assert(__builtin_memcap_offset_get(a) == 0);
+	// There must be enough for the object (more is permitted)
+	assert(__builtin_memcap_length_get(a) >= size);
 	assert((__builtin_memcap_base_get(a) & (sizeof(void*) - 1)) == 0);
 }
 
