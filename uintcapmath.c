@@ -135,9 +135,9 @@ BEGIN_TEST
 	assert(target == 0xfffffffffffffffeULL);
 #endif
 
-	target = one & 1;
+	target = one & (_TEST_INT_TYPE)1;
 	assert(target == 1);
-	target = 256 & twofivesix;
+	target = (_TEST_INT_TYPE)256 & twofivesix;
 	assert(target == twofivesix);
 	target = one & twofivesix;
 	assert(target == 0);
@@ -145,9 +145,9 @@ BEGIN_TEST
 	target &= one;
 	assert(target == 1);
 
-	target = one | 2;
+	target = one | (_TEST_INT_TYPE)2;
 	assert(target == 0x3);
-	target = 8 | one;
+	target = (_TEST_INT_TYPE)8 | one;
 	assert(target == 0x9);
 	target = one | twofivesix;
 	assert(target == 0x101);
@@ -155,9 +155,9 @@ BEGIN_TEST
 	target |= one;
 	assert(target == 1);
 
-	target = one ^ 1;
+	target = one ^ (_TEST_INT_TYPE)1;
 	assert(target == 0);
-	target = 2 ^ one;
+	target = (_TEST_INT_TYPE)2 ^ one;
 	assert(target == 0x3);
 	target = one ^ twofivesix;
 	assert(target == 0x101);
