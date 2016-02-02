@@ -68,7 +68,7 @@ void invalidate(struct Test *t1)
 	}
 }
 
-BEGIN_TEST(memcpy, "memcpy")
+BEGIN_TEST(memcpy)
 	struct Test t1, t2;
 
 	invalidate(&t2);

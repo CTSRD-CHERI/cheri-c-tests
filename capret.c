@@ -53,6 +53,6 @@ __asm__(
 #error This test checks that return addresses are capabilities.
 #endif
 
-BEGIN_TEST(capret, "return addresses are capabilities")
+BEGIN_TEST(capret)
 	foo();
 END_TEST

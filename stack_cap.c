@@ -51,7 +51,7 @@ void check_sizes(void)
 	}
 }
 
-BEGIN_TEST(stack_cap, "os-stack arrays")
+BEGIN_TEST(stack_cap)
 	char foo[sizes[0]], bar[sizes[1]], baz[sizes[2]];
 	ptrs[0] = foo;
 	ptrs[1] = bar;

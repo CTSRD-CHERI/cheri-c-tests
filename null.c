@@ -42,7 +42,7 @@ void is_null(void *p)
 }
 
 
-BEGIN_TEST(null, "generate NULL pointers")
+BEGIN_TEST(null)
 	void *p = 0;
 	is_null(p);
 	p = (void*)zero;

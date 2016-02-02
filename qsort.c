@@ -61,7 +61,7 @@ static int compare1(const void *a, const void *b)
 	return strcmp(k1->value, k2->value);
 }
 
-BEGIN_TEST(qsort, "qsort")
+BEGIN_TEST(qsort)
 	for (unsigned int i=0 ; i<(sizeof(array)/sizeof(array[0])) ; i++)
 	{
 		assert(__builtin_memcap_tag_get(array[i]) == 1);

@@ -32,7 +32,7 @@
 volatile __intcap_t tmp;
 volatile __intcap_t one = 1;
 
-BEGIN_TEST(intcap, "__intcap_t init, math, comparison");
+BEGIN_TEST(intcap)
 	char str[] = "0123456789";
 	__intcap_t foo = 42;
 	assert(__builtin_memcap_tag_get((void*)foo) == 0);

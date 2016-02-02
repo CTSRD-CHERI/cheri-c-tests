@@ -49,7 +49,7 @@ struct f
 
 fn f = test_fn_ptr;
 
-BEGIN_TEST(init, "global pointer initalization")
+BEGIN_TEST(init)
 	// Check that the initialisation of a pointer to a global worked:
 	assert(bar[0] == '0');
 	assert(bar[1] == '1');

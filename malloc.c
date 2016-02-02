@@ -61,7 +61,7 @@ void check_size(long size)
 	free(b);
 }
 
-BEGIN_TEST(malloc, "malloc")
+BEGIN_TEST(malloc)
 #ifdef SLOW_TESTS
 	// Malloc and free are fast, but faulting in and checking that every page
 	// really is zero is *very* slow.

@@ -37,15 +37,15 @@
 
 #ifdef _TEST_REAL_INTS
 #ifdef _TEST_SIGNED
-BEGIN_TEST(int64math, "math on int64_t")
+BEGIN_TEST(int64math)
 #else
-BEGIN_TEST(int64math, "math on uint64_t")
+BEGIN_TEST(uint64math)
 #endif
 #else
 #ifdef _TEST_SIGNED
-BEGIN_TEST(intcapmath, "math on __intcap_t")
+BEGIN_TEST(intcapmath)
 #else
-BEGIN_TEST(uintcapmath, "math on __uintcap_t")
+BEGIN_TEST(uintcapmath)
 #endif
 #endif
 	_TEST_INT_TYPE	target;

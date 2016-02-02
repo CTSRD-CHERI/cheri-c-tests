@@ -32,7 +32,7 @@
 #include <string.h>
 #include "cheri_c_test.h"
 
-BEGIN_TEST(capcmp, "pointer comparision")
+BEGIN_TEST(capcmp)
 	char str[] = "123456789";
 	char *end = &str[sizeof(str)];
 	// Pointer to one-past-the-end should work

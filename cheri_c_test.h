@@ -49,7 +49,10 @@ static const int cheri_fault_store = 0x13;
 static const int cheri_fault_load_capability = 0x14;
 static const int cheri_fault_store_capability = 0x16;
 
-#define BEGIN_TEST(name, desc) \
+#define	DECLARE_TEST(name, desc) \
+    static const char test_ ## name ## _desc[] = (desc);
+#define BEGIN_TEST(name) \
+    _Static_assert(sizeof(test_ ## name ## _desc) > 0, #name " not declared"); \
 	int main(void) { test_setup(); 
 #define END_TEST return 0; }
 
@@ -65,3 +68,4 @@ static const int cheri_fault_store_capability = 0x16;
 #define ASSERT_HAS_NOT_PERMISSION(x, perm) \
 	assert((__builtin_memcap_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __) == 0)
 
+#include "cheri_c_testdecls.h"
