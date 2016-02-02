@@ -44,7 +44,7 @@ volatile char *buffer[] = {
 	&pointees[9],
 };
 
-BEGIN_TEST
+BEGIN_TEST(memmove, "memmove");
 	memmove(buffer, &buffer[2], sizeof(buffer) - 2*sizeof(char*));
 	for (int i=0 ; i<8 ; i++)
 	{

@@ -52,6 +52,6 @@ void testfn(void)
 	foo();
 }
 
-BEGIN_TEST
+BEGIN_TEST(capretaddr, "return address")
 	testfn();
 END_TEST

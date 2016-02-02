@@ -38,7 +38,7 @@ union ptr_or_data
 char buffer[] = "1234567";
 char *ptr = buffer;
 
-BEGIN_TEST
+BEGIN_TEST(union, "unions with capabilities")
 	// Check that overwriting a capability in memory gives you something that
 	// is not a valid capability.
 	// Note that this needs to be volatile, as otherwise the aliasing rules in

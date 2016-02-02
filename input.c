@@ -43,7 +43,7 @@ int foo(__input int* x)
 	return y;
 }
 
-BEGIN_TEST
+BEGIN_TEST(input, "__input qualifier")
 	int x = 47;
 	int y = foo(&x);
 	// Check that the store failed.

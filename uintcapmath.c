@@ -35,7 +35,19 @@
 #define	_TEST_INT_TYPE	__uintcap_t
 #endif
 
-BEGIN_TEST
+#ifdef _TEST_REAL_INTS
+#ifdef _TEST_SIGNED
+BEGIN_TEST(int64math, "math on int64_t")
+#else
+BEGIN_TEST(int64math, "math on uint64_t")
+#endif
+#else
+#ifdef _TEST_SIGNED
+BEGIN_TEST(intcapmath, "math on __intcap_t")
+#else
+BEGIN_TEST(uintcapmath, "math on __uintcap_t")
+#endif
+#endif
 	_TEST_INT_TYPE	target;
 	_TEST_INT_TYPE	zero = 0;
 	_TEST_INT_TYPE	one = 1;

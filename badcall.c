@@ -34,7 +34,7 @@ typedef void(*fnptr)(void);
 int a;
 fnptr not_a_function = (fnptr)&a;
 
-BEGIN_TEST
+BEGIN_TEST(badcall, "calling non-functions")
 	// Try calling something that is not a function pointer
 	fnptr x = (fnptr)(__uintcap_t)42;
 	// Function pointers derived from intcap_t should not be valid and should

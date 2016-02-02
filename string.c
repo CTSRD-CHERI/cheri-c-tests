@@ -30,7 +30,7 @@
 #include <string.h>
 #include "cheri_c_test.h"
 
-BEGIN_TEST
+BEGIN_TEST(string, "on stack strings")
 	char str[] = "123456789";
 	char str2[] = "123456789";
 	char str3[sizeof(str2)];

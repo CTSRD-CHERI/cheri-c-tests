@@ -44,7 +44,7 @@ int foo(__output int* x)
 	return y;
 }
 
-BEGIN_TEST
+BEGIN_TEST(output, "__output qualifier")
 	int x = 47;
 	foo(&x);
 	// Check that the store succeeded

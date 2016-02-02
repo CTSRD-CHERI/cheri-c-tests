@@ -38,7 +38,7 @@ static const char * retsrt(void) {
         return str;
 }
 
-BEGIN_TEST
+BEGIN_TEST(funptr, "function pointers")
 #ifdef INCLUDE_XFAIL
 	assert(sizeof(&retsrt) == sizeof(void *));
 #endif

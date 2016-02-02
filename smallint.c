@@ -52,7 +52,7 @@ void *get_pointer(PtrIntPair p)
 	return (void*)(p.intptr & (__uintcap_t)~7LL);
 }
 
-BEGIN_TEST
+BEGIN_TEST(smallint, "small integer math on pointers")
 	char str[] = "123456789";
 	PtrIntPair p;
 	p.ptr = str;

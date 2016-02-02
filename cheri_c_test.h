@@ -49,7 +49,7 @@ static const int cheri_fault_store = 0x13;
 static const int cheri_fault_load_capability = 0x14;
 static const int cheri_fault_store_capability = 0x16;
 
-#define BEGIN_TEST \
+#define BEGIN_TEST(name, desc) \
 	int main(void) { test_setup(); 
 #define END_TEST return 0; }
 

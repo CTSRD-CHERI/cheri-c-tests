@@ -54,7 +54,7 @@ void dosetjump(void)
 	assert(position == 4);
 }
 
-BEGIN_TEST
+BEGIN_TEST(setjmp, "setjmp, longjmp")
 	assert(position == 0);
 	position++;
 	dosetjump();
