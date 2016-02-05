@@ -51,6 +51,7 @@ static const int cheri_fault_store_capability = 0x16;
 
 #define	DECLARE_TEST(name, desc) \
     static const char test_ ## name ## _desc[] = (desc);
+#define	DECLARE_TEST_FAULT	DECLARE_TEST
 #define BEGIN_TEST(name) \
     _Static_assert(sizeof(test_ ## name ## _desc) > 0, #name " not declared"); \
 	int main(void) { test_setup(); 

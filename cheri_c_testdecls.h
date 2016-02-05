@@ -29,25 +29,31 @@
  */
 
 /*
+ * Each test should be declared one per line with a DECLARE_TEST for
+ * ordinary tests and a DECLARE_TEST_FAULT test for ones that require a
+ * fault handler.
+ *
+ * The name of each test must be the name of the .c file implementing it.
+ *
  * No ifndef guard to allow multiple includes with different definitions
- * of DECLARE_TEST.
+ * of DECLARE_TEST and DECLARE_TEST_FAULT.
  */
 
-DECLARE_TEST(array, "on-stack array")
+DECLARE_TEST_FAULT(array, "on-stack array")
 DECLARE_TEST(atomic, "C11 atomic types")
-DECLARE_TEST(badcall, "calling non-functions")
+DECLARE_TEST_FAULT(badcall, "calling non-functions")
 DECLARE_TEST(capcmp, "pointer comparision")
 DECLARE_TEST(capret, "return addresses are capabilities")
 DECLARE_TEST(capretaddr, "return address")
 DECLARE_TEST(funptr, "function pointers")
 DECLARE_TEST(init, "global pointer initalization")
-DECLARE_TEST(input, "__input qualifier")
-DECLARE_TEST(intcap, "__intcap_t init, math, comparison");
+DECLARE_TEST_FAULT(input, "__input qualifier")
+DECLARE_TEST(intcap, "__intcap_t init, math, comparison")
 DECLARE_TEST(malloc, "malloc")
 DECLARE_TEST(memcpy, "memcpy")
-DECLARE_TEST(memmove, "memmove");
+DECLARE_TEST(memmove, "memmove")
 DECLARE_TEST(null, "generate NULL pointers")
-DECLARE_TEST(output, "__output qualifier")
+DECLARE_TEST_FAULT(output, "__output qualifier")
 DECLARE_TEST(printf, "printf")
 DECLARE_TEST(qsort, "qsort")
 DECLARE_TEST(setjmp, "setjmp, longjmp")
@@ -59,6 +65,6 @@ DECLARE_TEST(uint64math, "math on uint64_t")
 DECLARE_TEST(intcapmath, "math on __intcap_t")
 DECLARE_TEST(uintcapmath, "math on __uintcap_t")
 DECLARE_TEST(union, "unions with capabilities")
-DECLARE_TEST(va_args, "varidac functions")
+DECLARE_TEST_FAULT(va_args, "varidac functions")
 DECLARE_TEST(va_copy, "va_copy copies")
-DECLARE_TEST(va_die, "consume too many varargs")
+DECLARE_TEST_FAULT(va_die, "consume too many varargs")
