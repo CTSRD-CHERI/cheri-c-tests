@@ -30,8 +30,8 @@
 #include <string.h>
 #include "cheri_c_test.h"
 
-char pointees[] = "0123456789";
-volatile char *buffer[] = {
+static char pointees[] = "0123456789";
+static volatile char *buffer[] = {
 	&pointees[0],
 	&pointees[1],
 	&pointees[2],

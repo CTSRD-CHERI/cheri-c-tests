@@ -35,8 +35,8 @@ union ptr_or_data
 	long long words[4];
 };
 
-char buffer[] = "1234567";
-char *ptr = buffer;
+static char buffer[] = "1234567";
+static char *ptr = buffer;
 
 BEGIN_TEST(union)
 	// Check that overwriting a capability in memory gives you something that

@@ -30,29 +30,29 @@
 
 #include "cheri_c_test.h"
 
-void foo(void );
+void _capret_foo(void);
 
 #ifdef __mips__
 __asm__(
 	".text\n"
-	".globl	foo\n"
+	".globl	_capret_foo\n"
 	".align	3\n"
-	".type	foo,@function\n"
-	".ent	foo\n"
-"foo:                                    # @foo\n"
+	".type	_capret_foo,@function\n"
+	".ent	_capret_foo\n"
+"_capret_foo:                                    # @_capret_foo\n"
 	".frame	$fp,32,$ra\n"
 	".mask 	0x00000000,0\n"
 	".fmask	0x00000000,0\n"
 	"cjr	$c17\n"
 	"nop\n"
-	".end	foo\n"
+	".end	_capret_foo\n"
 "$func_end0:\n"
-	".size	foo, ($func_end0)-foo\n"
+	".size	_capret_foo, ($func_end0)-_capret_foo\n"
 );
 #else
 #error This test checks that return addresses are capabilities.
 #endif
 
 BEGIN_TEST(capret)
-	foo();
+	_capret_foo();
 END_TEST

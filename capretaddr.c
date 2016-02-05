@@ -29,8 +29,8 @@
  */
 #include "cheri_c_test.h"
 
-void testfn(void);
-void foo(void)
+static void testfn(void);
+static void foo(void)
 {
 	void *ret = __builtin_return_address(0);
 	// Check that the return capability is, indeed, a capability
@@ -47,7 +47,7 @@ void foo(void)
 	XFAIL((__builtin_memcap_perms_get(ret) & __CHERI_CAP_PERMISSION_PERMIT_STORE__) == 0);
 }
 
-void testfn(void)
+static void testfn(void)
 {
 	foo();
 }

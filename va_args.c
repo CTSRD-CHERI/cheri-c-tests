@@ -31,8 +31,8 @@
 #include <stdarg.h>
 #include "cheri_c_test.h"
 
-char str[] = "012345678901234567890";
-volatile void *ptrs[] = 
+static char str[] = "012345678901234567890";
+static volatile void *ptrs[] =
 {
 	&str[0],
 	&str[1],
@@ -55,9 +55,9 @@ volatile void *ptrs[] =
 	&str[18],
 	&str[19]
 };
-int gint;;
+static int gint;
 
-void printstuff(int argpairs, ...)
+static void printstuff(int argpairs, ...)
 {
 	va_list ap;
 	va_start(ap, argpairs);
@@ -80,12 +80,12 @@ void printstuff(int argpairs, ...)
 
 typedef void (*inc_t)(void);
 
-void inc(void)
+static void inc(void)
 {
 	gint++;
 }
 
-void check_fp(int intarg, ...)
+static void check_fp(int intarg, ...)
 {
 	inc_t incfp;
 	va_list ap;

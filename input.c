@@ -30,7 +30,7 @@
 #include <stdarg.h>
 #include "cheri_c_test.h"
 
-int foo(__input int* x)
+static int foo(__input int* x)
 {
 	// Check that we can read from the variable
 	int y = *(int*)x;

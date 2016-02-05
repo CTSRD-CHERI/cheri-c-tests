@@ -30,7 +30,7 @@
 #include <stdarg.h>
 #include "cheri_c_test.h"
 
-void printstuff(char *fmt, ...)
+static void printstuff(char *fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);

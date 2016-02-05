@@ -30,7 +30,7 @@
 #include <stdarg.h>
 #include "cheri_c_test.h"
 
-int foo(__output int* x)
+static int foo(__output int* x)
 {
 	// Check that a load causes a fault.  This will trap to the handler and
 	// increment the fault count.
