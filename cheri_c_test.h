@@ -27,7 +27,9 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
+#ifndef TEST_CUSTOM_FRAMEWORK
 #include <assert.h>
+#endif
 #include <stdint.h>
 
 #ifndef __FreeBSD__
@@ -39,8 +41,6 @@ typedef void (*cheri_handler)(void *, int);
 extern cheri_handler test_fault_handler;
 extern volatile int faults;
 
-void test_setup(void);
-
 static const int cheri_fault_length = 1;
 static const int cheri_fault_tag = 2;
 static const int cheri_fault_seal = 3;
@@ -49,6 +49,9 @@ static const int cheri_fault_store = 0x13;
 static const int cheri_fault_load_capability = 0x14;
 static const int cheri_fault_store_capability = 0x16;
 
+#ifndef TEST_CUSTOM_FRAMEWORK
+void test_setup(void);
+
 #define	DECLARE_TEST(name, desc) \
     static const char test_ ## name ## _desc[] = (desc);
 #define	DECLARE_TEST_FAULT	DECLARE_TEST
@@ -56,6 +59,10 @@ static const int cheri_fault_store_capability = 0x16;
     _Static_assert(sizeof(test_ ## name ## _desc) > 0, #name " not declared"); \
 	int main(void) { test_setup(); 
 #define END_TEST return 0; }
+
+#else /* !TEST_CUSTOM_FRAMEWORK */
+#include <cheri_c_test_framework.h>
+#endif /* !TEST_CUSTOM_FRAMEWORK */
 
 #ifdef INCLUDE_XFAIL
 #define XFAIL(x) assert(x)
