@@ -39,6 +39,7 @@
 #include <ucontext.h>
 #include "cheri_c_test.h"
 
+static const size_t cap_size = sizeof(void*);
 
 static void handler(void *capreg, int cause)
 {
@@ -137,7 +138,7 @@ signExtend(register_t val, int size)
 static inline register_t
 getImm(uint32_t instr, int start, int len)
 {
-	uint32_t mask = (0xffffffff >> (32-len)) << (start - len + 1);
+	uint32_t mask = (0xffffffff >> (cap_size-len)) << (start - len + 1);
 
 	return (instr & mask) >> (start - len + 1);
 }
@@ -156,7 +157,7 @@ getCapRegAtIndex(mcontext_t *context, int idx)
 	}
 	_Static_assert(offsetof(struct cheri_frame, cf_c0) == 0,
 			"Layout of struct cheri_frame has changed!");
-	_Static_assert(offsetof(struct cheri_frame, cf_pcc) == 27*32,
+	_Static_assert(offsetof(struct cheri_frame, cf_pcc) == 27*sizeof(void*),
 			"Layout of struct cheri_frame has changed!");
 	assert((idx < 26) && (idx >= 0) &&
 	       "Invalid capability register index");
@@ -333,9 +334,9 @@ emulateBranch(mcontext_t *context, register_t pc)
 					// FIXME: This is very ugly, but to fix it we need to
 					// define a new structure to replace cheri_frame.
 					struct cheri_frame *frame = getCHERIFrame(context);
-					// Note: The /32 is safe here because if this is not
+					// Note: The /cap_size is safe here because if this is not
 					// aligned then the load will fail anyway...
-					int regno = offsetof(struct cheri_frame, cf_pcc) / 32;
+					int regno = offsetof(struct cheri_frame, cf_pcc) / cap_size;
 					(((__capability void**)frame)[regno]) =
 						getCapReg(context, instr, 15);
 					return true;
