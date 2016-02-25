@@ -47,7 +47,7 @@ static void foo(void)
 	XFAIL((__builtin_memcap_perms_get(ret) & __CHERI_CAP_PERMISSION_PERMIT_STORE__) == 0);
 }
 
-static void testfn(void)
+static void __attribute__((noinline)) testfn(void)
 {
 	foo();
 }
