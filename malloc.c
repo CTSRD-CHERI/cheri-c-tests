@@ -44,7 +44,10 @@ void check_allocation(void *a, long size)
 	assert(__builtin_memcap_offset_get(a) == 0);
 	// There must be enough for the object (more is permitted)
 	assert(__builtin_memcap_length_get(a) >= size);
-	assert((__builtin_memcap_base_get(a) & (sizeof(void*) - 1)) == 0);
+	// If there is space for a pointer, the allocation must be aligned
+	// sufficiently to hold one.
+	if (size >= sizeof(void *))
+		assert((__builtin_memcap_base_get(a) & (sizeof(void*) - 1)) == 0);
 }
 
 void check_size(long size)
