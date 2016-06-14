@@ -155,7 +155,7 @@ getCapRegAtIndex(mcontext_t *context, int idx)
 	{
 		return frame->cf_pcc;
 	}
-	_Static_assert(offsetof(struct cheri_frame, cf_c0) == 0,
+	_Static_assert(offsetof(struct cheri_frame, cf_ddc) == 0,
 			"Layout of struct cheri_frame has changed!");
 	_Static_assert(offsetof(struct cheri_frame, cf_pcc) == 27*sizeof(void*),
 			"Layout of struct cheri_frame has changed!");
