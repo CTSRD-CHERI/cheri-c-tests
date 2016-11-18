@@ -161,7 +161,7 @@ getCapRegAtIndex(mcontext_t *context, int idx)
 			"Layout of struct cheri_frame has changed!");
 	assert((idx < 26) && (idx >= 0) &&
 	       "Invalid capability register index");
-	return (((__capability void**)frame)[idx]);
+	return (((void * __capability * __capability )frame)[idx]);
 }
 
 static inline uint32_t *
@@ -337,7 +337,7 @@ emulateBranch(mcontext_t *context, register_t pc)
 					// Note: The /cap_size is safe here because if this is not
 					// aligned then the load will fail anyway...
 					int regno = offsetof(struct cheri_frame, cf_pcc) / cap_size;
-					(((__capability void**)frame)[regno]) =
+					(((void * __capability * __capability)frame)[regno]) =
 						getCapReg(context, instr, 15);
 					return true;
 				}
