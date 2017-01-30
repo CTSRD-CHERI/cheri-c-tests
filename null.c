@@ -41,6 +41,7 @@ void is_null(void *p)
 	assert(__builtin_memcap_length_get(p) == 0);
 }
 
+#pragma clang diagnostic ignored "-Wcheri-capability-misuse"
 
 BEGIN_TEST(null)
 	void *p = 0;
