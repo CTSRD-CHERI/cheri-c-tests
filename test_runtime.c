@@ -168,10 +168,11 @@ static inline uint32_t *
 getAdjustedPc(mcontext_t *context, register_t pc)
 {
 	uint64_t base = __builtin_memcap_base_get(getCHERIFrame(context)->cf_pcc);
+	uintptr_t pcc = (uintptr_t)getCHERIFrame(context)->cf_pcc;
 	assert((base + pc) > base);
 	assert(pc < __builtin_memcap_length_get(getCHERIFrame(context)->cf_pcc));
-	base += (uint64_t)pc;
-	return ((uint32_t*)base);
+	pcc += (uint64_t)pc;
+	return ((uint32_t*)pcc);
 }
 
 /**
