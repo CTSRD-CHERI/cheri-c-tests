@@ -30,6 +30,10 @@
 #include <stdlib.h>
 #include "cheri_c_test.h"
 
+#ifdef HAVE_MALLOC_USUABLE_SIZE
+size_t malloc_usable_size(const void *ptr);
+#endif
+
 void check_allocation(void *a, long size)
 {
 	assert(__builtin_memcap_tag_get(a));
@@ -44,6 +48,9 @@ void check_allocation(void *a, long size)
 	assert(__builtin_memcap_offset_get(a) == 0);
 	// There must be enough for the object (more is permitted)
 	assert(__builtin_memcap_length_get(a) >= size);
+#ifdef HAVE_MALLOC_USUABLE_SIZE
+	assert(__builtin_memcap_length_get(a) == malloc_usable_size(a));
+#endif
 	// If there is space for a pointer, the allocation must be aligned
 	// sufficiently to hold one.
 	if (size >= sizeof(void *))
