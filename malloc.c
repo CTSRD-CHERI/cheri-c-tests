@@ -36,8 +36,8 @@ size_t malloc_usable_size(const void *ptr);
 
 void check_allocation(void *a, long size)
 {
-	assert(__builtin_memcap_tag_get(a));
-	assert(__builtin_memcap_length_get(a) - __builtin_memcap_offset_get(a) >= size);
+	assert(__builtin_cheri_tag_get(a));
+	assert(__builtin_cheri_length_get(a) - __builtin_cheri_offset_get(a) >= size);
 #ifdef INCLUDE_XFAIL
 	ASSERT_HAS_NOT_PERMISSION(a, EXECUTE);
 #endif
@@ -45,16 +45,16 @@ void check_allocation(void *a, long size)
 	ASSERT_HAS_PERMISSION(a, STORE);
 	ASSERT_HAS_PERMISSION(a, LOAD_CAPABILITY);
 	ASSERT_HAS_PERMISSION(a, LOAD);
-	assert(__builtin_memcap_offset_get(a) == 0);
+	assert(__builtin_cheri_offset_get(a) == 0);
 	// There must be enough for the object (more is permitted)
-	assert(__builtin_memcap_length_get(a) >= size);
+	assert(__builtin_cheri_length_get(a) >= size);
 #ifdef HAVE_MALLOC_USUABLE_SIZE
-	assert(__builtin_memcap_length_get(a) == malloc_usable_size(a));
+	assert(__builtin_cheri_length_get(a) == malloc_usable_size(a));
 #endif
 	// If there is space for a pointer, the allocation must be aligned
 	// sufficiently to hold one.
 	if (size >= sizeof(void *))
-		assert((__builtin_memcap_base_get(a) & (sizeof(void*) - 1)) == 0);
+		assert((__builtin_cheri_base_get(a) & (sizeof(void*) - 1)) == 0);
 }
 
 void check_size(long size)

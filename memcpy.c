@@ -51,7 +51,7 @@ void check(struct Test *t1, int start, int end)
 		assert(t1->pad0[i] == i);
 	}
 	assert((void*)t1->y == t1);
-	assert(__builtin_memcap_tag_get(t1->y));
+	assert(__builtin_cheri_tag_get(t1->y));
 	for (int i=0 ; i<end ; i++)
 	{
 		assert(t1->pad1[i] == i);
@@ -101,7 +101,7 @@ BEGIN_TEST(memcpy)
 	cpy = memcpy(&t2, &t1.pad0[1], sizeof(t1) - 1);
 	assert((void*)cpy == &t2);
 	// This should have invalidated the capability
-	assert(__builtin_memcap_tag_get(t2.y) == 0);
+	assert(__builtin_cheri_tag_get(t2.y) == 0);
 	// Check that the non-capability data has been copied correctly
 	for (int i=0 ; i<31 ; i++)
 	{
@@ -131,7 +131,7 @@ BEGIN_TEST(memcpy)
 	copy = memcpy(&t2, &t1.pad0[1], sizeof(t1) - 1);
 	assert(copy == &t2);
 	// This should have invalidated the capability
-	assert(!__builtin_memcap_tag_get(t2.y));
+	assert(!__builtin_cheri_tag_get(t2.y));
 	// Check that the non-capability data has been copied correctly
 	for (int i=0 ; i<31 ; i++)
 	{
@@ -146,8 +146,8 @@ BEGIN_TEST(memcpy)
 	// aligned base, unaligned offset + base
 	invalidate(&t2);
 	cpy = memcpy(
-		__builtin_memcap_offset_increment(&t2, 3),
-		__builtin_memcap_offset_increment(&t1, 3),
+		__builtin_cheri_offset_increment(&t2, 3),
+		__builtin_cheri_offset_increment(&t1, 3),
 		sizeof(t1)-6
 		);
 	assert((void*)cpy == &t2.pad0[3]);

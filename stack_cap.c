@@ -36,10 +36,10 @@ volatile void* ptrs[3];
 
 void check_overlap(void *a, void*b)
 {
-	unsigned long long basea = __builtin_memcap_base_get(a);
-	unsigned long long baseb = __builtin_memcap_base_get(b);
-	unsigned long long topa = basea + __builtin_memcap_length_get(a);
-	unsigned long long topb = baseb + __builtin_memcap_length_get(b);
+	unsigned long long basea = __builtin_cheri_base_get(a);
+	unsigned long long baseb = __builtin_cheri_base_get(b);
+	unsigned long long topa = basea + __builtin_cheri_length_get(a);
+	unsigned long long topb = baseb + __builtin_cheri_length_get(b);
 	assert((basea >= topb) || (baseb >= topa));
 }
 
@@ -47,7 +47,7 @@ void check_sizes(void)
 {
 	for (unsigned int i=0 ; i<sizeof(sizes)/sizeof(sizes[0]) ; i++)
 	{
-		assert(__builtin_memcap_length_get((void*)ptrs[i]) >= sizes[i]);
+		assert(__builtin_cheri_length_get((void*)ptrs[i]) >= sizes[i]);
 	}
 }
 

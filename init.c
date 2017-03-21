@@ -61,18 +61,18 @@ BEGIN_TEST(init)
 	ASSERT_HAS_NOT_PERMISSION(bar, EXECUTE);
 	// At least for small allocations, this pointer should be exactly the size
 	// of the global.
-	assert(__builtin_memcap_length_get((void*)bar) == sizeof(foo));
+	assert(__builtin_cheri_length_get((void*)bar) == sizeof(foo));
 	assert((void*)bar == &foo);
 	// Check that the two function pointers point to the correct place.
 	assert(f == test_fn_ptr);
 	assert(x.f == test_fn_ptr);
 	// Pointers to functions should be executable capabilities
 	ASSERT_HAS_PERMISSION(f, EXECUTE);
-	void *pcc = __builtin_memcap_program_counter_get();
+	void *pcc = __builtin_cheri_program_counter_get();
 	// Pointers to functions should be pcc with the offset set to the address
 	// of the function.
-	assert(__builtin_memcap_length_get(pcc) == __builtin_memcap_length_get(f));
-	assert(__builtin_memcap_base_get(pcc) == __builtin_memcap_base_get(f));
+	assert(__builtin_cheri_length_get(pcc) == __builtin_cheri_length_get(f));
+	assert(__builtin_cheri_base_get(pcc) == __builtin_cheri_base_get(f));
 	// That's all good in theory - now check that we can actually call the
 	// functions!
 	x.f();

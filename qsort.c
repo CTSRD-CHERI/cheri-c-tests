@@ -64,8 +64,8 @@ static int compare1(const void *a, const void *b)
 BEGIN_TEST(qsort)
 	for (unsigned int i=0 ; i<(sizeof(array)/sizeof(array[0])) ; i++)
 	{
-		assert(__builtin_memcap_tag_get(array[i]) == 1);
-		assert(__builtin_memcap_tag_get(array1[i].value) == 1);
+		assert(__builtin_cheri_tag_get(array[i]) == 1);
+		assert(__builtin_cheri_tag_get(array1[i].value) == 1);
 	}
 	// Check that sorting capabilities works
 	qsort(array, 7, sizeof(void*), compare);
@@ -73,8 +73,8 @@ BEGIN_TEST(qsort)
 	qsort(array1, 7, sizeof(struct dict_entry), compare1);
 	for (unsigned int i=0 ; i<(sizeof(array)/sizeof(array[0])) ; i++)
 	{
-		assert(__builtin_memcap_tag_get(array[i]) == 1);
-		assert(__builtin_memcap_tag_get(array1[i].value) == 1);
+		assert(__builtin_cheri_tag_get(array[i]) == 1);
+		assert(__builtin_cheri_tag_get(array1[i].value) == 1);
 		assert(array[i][0] == 'a' +i );
 		assert(array1[i].value[0] == 'a' + i);
 	}

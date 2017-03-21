@@ -35,7 +35,7 @@ static void printstuff(char *fmt, ...)
 	va_list ap, ap2;
 	va_start(ap, fmt);
 	va_copy(ap2, ap);
-	assert(__builtin_memcap_length_get((void*)ap) == __builtin_memcap_length_get((void*)ap2));
+	assert(__builtin_cheri_length_get((void*)ap) == __builtin_cheri_length_get((void*)ap2));
 	for (int i=1 ; i<9 ; i++)
 	{
 		int x = va_arg(ap, int);

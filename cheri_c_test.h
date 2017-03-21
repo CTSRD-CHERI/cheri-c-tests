@@ -71,9 +71,9 @@ void test_setup(void);
 #endif
 
 #define ASSERT_HAS_PERMISSION(x, perm) \
-	assert((__builtin_memcap_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __) == __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __)
+	assert((__builtin_cheri_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __) == __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __)
 
 #define ASSERT_HAS_NOT_PERMISSION(x, perm) \
-	assert((__builtin_memcap_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __) == 0)
+	assert((__builtin_cheri_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __) == 0)
 
 #include "cheri_c_testdecls.h"

@@ -63,7 +63,7 @@ static void printstuff(int argpairs, ...)
 	va_start(ap, argpairs);
 	// Check that the length corresponds to the number of arguments, with
 	// appropriate padding.
-	assert(__builtin_memcap_length_get(ap) == argpairs * sizeof(void*) * 2);
+	assert(__builtin_cheri_length_get(ap) == argpairs * sizeof(void*) * 2);
 	ASSERT_HAS_NOT_PERMISSION(ap, STORE);
 	ASSERT_HAS_NOT_PERMISSION(ap, STORE_CAPABILITY);
 	for (int i=0 ; i<argpairs ; i++)
@@ -71,7 +71,7 @@ static void printstuff(int argpairs, ...)
 		int x = va_arg(ap, int);
 		char *p = va_arg(ap, void*);
 		assert(x == i);
-		assert(__builtin_memcap_tag_get(p));
+		assert(__builtin_cheri_tag_get(p));
 		assert(p == ptrs[i]);
 		assert(*p = str[i]);
 	}
@@ -92,7 +92,7 @@ static void check_fp(int intarg, ...)
 	va_start(ap, intarg);
 	// Check that we've been passed a single function pointer sized argument
 #ifdef INCLUDE_XFAIL
-	assert(__builtin_memcap_length_get(ap) == sizeof(void *));
+	assert(__builtin_cheri_length_get(ap) == sizeof(void *));
 	incfp = va_arg(ap, inc_t);
 	for (int i = 0; i < intarg; i++)
 		incfp();

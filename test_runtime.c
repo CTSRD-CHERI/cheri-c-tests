@@ -167,10 +167,10 @@ getCapRegAtIndex(mcontext_t *context, int idx)
 static inline uint32_t *
 getAdjustedPc(mcontext_t *context, register_t pc)
 {
-	uint64_t base = __builtin_memcap_base_get(getCHERIFrame(context)->cf_pcc);
+	uint64_t base = __builtin_cheri_base_get(getCHERIFrame(context)->cf_pcc);
 	uintptr_t pcc = (uintptr_t)getCHERIFrame(context)->cf_pcc;
 	assert((base + pc) > base);
-	assert(pc < __builtin_memcap_length_get(getCHERIFrame(context)->cf_pcc));
+	assert(pc < __builtin_cheri_length_get(getCHERIFrame(context)->cf_pcc));
 	pcc += (uint64_t)pc;
 	return ((uint32_t*)pcc);
 }
@@ -317,14 +317,14 @@ emulateBranch(mcontext_t *context, register_t pc)
 				case CHERI_BRANCH_CBTU:
 				{
 					__capability void *cap = getCapReg(context, instr, 20);
-					bool tag = __builtin_cheri_get_cap_tag(cap);
+					bool tag = __builtin_mips_cheri_get_cap_tag(cap);
 					context->mc_pc = (!tag ? branchPc : normalPc);
 					return true;
 				}
 				case CHERI_BRANCH_CBTS:
 				{
 					__capability void *cap = getCapReg(context, instr, 20);
-					bool tag = __builtin_cheri_get_cap_tag(cap);
+					bool tag = __builtin_mips_cheri_get_cap_tag(cap);
 					context->mc_pc = (tag ? branchPc : normalPc);
 					return true;
 				}

@@ -41,7 +41,7 @@ BEGIN_TEST(array)
 	int count = 8;
 	char buffer[count];
 	int *x = (int*)buffer;
-	assert(__builtin_memcap_length_get(x) == count);
+	assert(__builtin_cheri_length_get(x) == count);
 	for (int i=0 ; i<count ; i++)
 	{
 		x[i] = i;

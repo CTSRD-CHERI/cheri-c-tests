@@ -40,10 +40,10 @@ _Atomic(int) *wp = &w;
 _Atomic(long long) *dp = &d;
 
 BEGIN_TEST(atomic)
-	assert(__builtin_memcap_length_get(cp) == sizeof(c));
-	assert(__builtin_memcap_length_get(hp) == sizeof(h));
-	assert(__builtin_memcap_length_get(wp) == sizeof(w));
-	assert(__builtin_memcap_length_get(dp) == sizeof(d));
+	assert(__builtin_cheri_length_get(cp) == sizeof(c));
+	assert(__builtin_cheri_length_get(hp) == sizeof(h));
+	assert(__builtin_cheri_length_get(wp) == sizeof(w));
+	assert(__builtin_cheri_length_get(dp) == sizeof(d));
 	c++;
 	h++;
 	w++;
