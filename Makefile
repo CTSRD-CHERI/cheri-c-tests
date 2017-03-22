@@ -32,7 +32,7 @@ TESTS=\
 	va_copy\
 	va_die
 
-TEST_CFLAGS=-mabi=sandbox -cheri-linker -Werror -O3
+TEST_CFLAGS=-mabi=purecap -cheri-linker -Werror -O3
 TEST_CFLAGS+=-DHAVE_MALLOC_USUABLE_SIZE
 TEST_LDFLAGS=-cheri-linker -lc -lmalloc_simple
 
