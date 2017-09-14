@@ -30,7 +30,7 @@
 #include "cheri_c_test.h"
 
 static void testfn(void);
-static void foo(void)
+static void __attribute__((noinline)) foo(void)
 {
 	void *ret = __builtin_return_address(0);
 	// Check that the return capability is, indeed, a capability
