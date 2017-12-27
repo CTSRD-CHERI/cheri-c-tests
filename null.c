@@ -38,7 +38,7 @@ void is_null(void *p)
 	assert(__builtin_cheri_tag_get(p) == 0);
 	assert(__builtin_cheri_base_get(p) == 0);
 	assert(__builtin_cheri_offset_get(p) == 0);
-	assert(__builtin_cheri_length_get(p) == 0);
+	assert(__builtin_cheri_length_get(p) == -1);
 }
 
 #pragma clang diagnostic ignored "-Wcheri-capability-misuse"
