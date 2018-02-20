@@ -80,7 +80,7 @@ BEGIN_TEST(memcpy)
 	t1.y = &t2;
 	invalidate(&t2);
 	// Simple case: aligned start and end
-	__capability void *cpy = memcpy(t1.y, &t1, sizeof(t1));
+	void * __capability cpy = memcpy(t1.y, &t1, sizeof(t1));
 	assert((void*)cpy == &t2);
 	check(&t2, 0, 32);
 	invalidate(&t2);
