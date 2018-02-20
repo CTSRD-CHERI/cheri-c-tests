@@ -28,6 +28,8 @@
  * SUCH DAMAGE.
  */
 #include <stdarg.h>
+
+#define TEST_EXPECTED_FAULTS 2
 #include "cheri_c_test.h"
 
 typedef void(*fnptr)(void);

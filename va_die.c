@@ -28,6 +28,7 @@
  * SUCH DAMAGE.
  */
 #include <stdarg.h>
+#define TEST_EXPECTED_FAULTS 1
 #include "cheri_c_test.h"
 
 static void printstuff(char *fmt, ...)

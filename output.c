@@ -28,6 +28,7 @@
  * SUCH DAMAGE.
  */
 #include <stdarg.h>
+#define TEST_EXPECTED_FAULTS 1
 #include "cheri_c_test.h"
 
 static int  __attribute__((noinline)) foo(__output int* x)
