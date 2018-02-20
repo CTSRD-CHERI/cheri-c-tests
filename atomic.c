@@ -40,10 +40,10 @@ _Atomic(int) *wp = &w;
 _Atomic(long long) *dp = &d;
 
 BEGIN_TEST(atomic)
-	assert(__builtin_cheri_length_get(cp) == sizeof(c));
-	assert(__builtin_cheri_length_get(hp) == sizeof(h));
-	assert(__builtin_cheri_length_get(wp) == sizeof(w));
-	assert(__builtin_cheri_length_get(dp) == sizeof(d));
+	assert_eq(__builtin_cheri_length_get(cp), sizeof(c));
+	assert_eq(__builtin_cheri_length_get(hp), sizeof(h));
+	assert_eq(__builtin_cheri_length_get(wp), sizeof(w));
+	assert_eq(__builtin_cheri_length_get(dp), sizeof(d));
 	c++;
 	h++;
 	w++;
@@ -52,9 +52,9 @@ BEGIN_TEST(atomic)
 	(*hp)++;
 	(*wp)++;
 	(*dp)++;
-	assert(c == 2);
-	assert(h == 2);
-	assert(w == 2);
-	assert(d == 2);
+	assert_eq(c, 2);
+	assert_eq(h, 2);
+	assert_eq(w, 2);
+	assert_eq(d, 2);
 END_TEST
 

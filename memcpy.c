@@ -48,13 +48,13 @@ void check(struct Test *t1, int start, int end)
 {
 	for (int i=start ; i<32 ; i++)
 	{
-		assert(t1->pad0[i] == i);
+		assert_eq(t1->pad0[i], i);
 	}
-	assert((void*)t1->y == t1);
+	assert_eq_cap((void*)t1->y, t1);
 	assert(__builtin_cheri_tag_get(t1->y));
 	for (int i=0 ; i<end ; i++)
 	{
-		assert(t1->pad1[i] == i);
+		assert_eq(t1->pad1[i], i);
 	}
 }
 
@@ -81,62 +81,62 @@ BEGIN_TEST(memcpy)
 	invalidate(&t2);
 	// Simple case: aligned start and end
 	void * __capability cpy = memcpy(t1.y, &t1, sizeof(t1));
-	assert((void*)cpy == &t2);
+	assert_eq_cap((void*)cpy, &t2);
 	check(&t2, 0, 32);
 	invalidate(&t2);
 	// Test that it still works with an unaligned start...
 	cpy = memcpy(&t2.pad0[3], &t1.pad0[3], sizeof(t1) - 3);
-	assert((void*)cpy == &t2.pad0[3]);
+	assert_eq_cap((void*)cpy, &t2.pad0[3]);
 	check(&t2, 3, 32);
 	// ...or an unaligned end...
 	cpy = memcpy(&t2, &t1, sizeof(t1) - 3);
-	assert((void*)cpy == &t2);
+	assert_eq_cap((void*)cpy, &t2);
 	check(&t2, 0, 29);
 	// ...or both...
 	cpy = memcpy(&t2.pad0[3], &t1.pad0[3], sizeof(t1) - 6);
-	assert((void*)cpy == &t2.pad0[3]);
+	assert_eq_cap((void*)cpy, &t2.pad0[3]);
 	check(&t2, 3, 29);
 	invalidate(&t2);
 	// ...and finally a case where the alignment is different for both?
 	cpy = memcpy(&t2, &t1.pad0[1], sizeof(t1) - 1);
-	assert((void*)cpy == &t2);
+	assert_eq_cap((void*)cpy, &t2);
 	// This should have invalidated the capability
-	assert(__builtin_cheri_tag_get(t2.y) == 0);
+	assert_eq(__builtin_cheri_tag_get(t2.y), 0);
 	// Check that the non-capability data has been copied correctly
 	for (int i=0 ; i<31 ; i++)
 	{
-		assert(t2.pad0[i] == i+1);
-		assert(t2.pad1[i] == i+1);
+		assert_eq(t2.pad0[i], i+1);
+		assert_eq(t2.pad1[i], i+1);
 	}
 	invalidate(&t2);
 	// Simple case: aligned start and end
 	void *copy = memcpy(&t2, &t1, sizeof(t1));
-	assert(copy == &t2);
+	assert_eq_cap(copy, &t2);
 	check(&t2, 0, 32);
 	invalidate(&t2);
 	// Test that it still works with an unaligned start...
 	copy = memcpy(&t2.pad0[3], &t1.pad0[3], sizeof(t1) - 3);
-	assert(copy == &t2.pad0[3]);
+	assert_eq_cap(copy, &t2.pad0[3]);
 	check(&t2, 3, 32);
 	// ...or an unaligned end...
 	copy = memcpy(&t2, &t1, sizeof(t1) - 3);
-	assert(copy == &t2);
+	assert_eq_cap(copy, &t2);
 	check(&t2, 0, 29);
 	// ...or both...
 	copy = memcpy(&t2.pad0[3], &t1.pad0[3], sizeof(t1) - 6);
-	assert(copy == &t2.pad0[3]);
+	assert_eq_cap(copy, &t2.pad0[3]);
 	check(&t2, 3, 29);
 	invalidate(&t2);
 	// ...and finally a case where the alignment is different for both?
 	copy = memcpy(&t2, &t1.pad0[1], sizeof(t1) - 1);
-	assert(copy == &t2);
+	assert_eq_cap(copy, &t2);
 	// This should have invalidated the capability
 	assert(!__builtin_cheri_tag_get(t2.y));
 	// Check that the non-capability data has been copied correctly
 	for (int i=0 ; i<31 ; i++)
 	{
-		assert(t2.pad0[i] == i+1);
-		assert(t2.pad1[i] == i+1);
+		assert_eq(t2.pad0[i], i+1);
+		assert_eq(t2.pad1[i], i+1);
 	}
 	
 	// .. and finally finally tests that offsets are taken into
@@ -150,7 +150,7 @@ BEGIN_TEST(memcpy)
 		__builtin_cheri_offset_increment(&t1, 3),
 		sizeof(t1)-6
 		);
-	assert((void*)cpy == &t2.pad0[3]);
+	assert_eq_cap((void*)cpy, &t2.pad0[3]);
 	check(&t2, 3, 29);
 END_TEST
 

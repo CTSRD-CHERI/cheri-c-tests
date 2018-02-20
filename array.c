@@ -32,7 +32,7 @@
 
 static void handler(void *capreg, int cause)
 {
-	assert(cause == cheri_fault_length);
+	assert_eq(cause, cheri_fault_length);
 	faults++;
 }
 
@@ -41,11 +41,11 @@ BEGIN_TEST(array)
 	int count = 8;
 	char buffer[count];
 	int *x = (int*)buffer;
-	assert(__builtin_cheri_length_get(x) == count);
+	assert_eq(__builtin_cheri_length_get(x), count);
 	for (int i=0 ; i<count ; i++)
 	{
 		x[i] = i;
 	}
-	assert(faults == count - (count  / sizeof(int)));
+	assert_eq(faults, count - (count  / sizeof(int)));
 END_TEST
 

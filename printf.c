@@ -34,9 +34,9 @@ BEGIN_TEST(printf)
 	char expected[] = "hello world";
 	char out[sizeof(expected)+8];
 	int len = sprintf(out, "hello %s", "world");
-	assert(len == sizeof(expected)-1);
+	assert_eq(len, sizeof(expected)-1);
 	for (int i=0 ; i<sizeof(expected) ; i++)
 	{
-		assert(expected[i] == out[i]);
+		assert_eq(expected[i], out[i]);
 	}
 END_TEST

@@ -40,9 +40,9 @@ BEGIN_TEST(badcall)
 	// Function pointers derived from intcap_t should not be valid and should
 	// trap.
 	x();
-	assert(faults == 1);
+	assert_eq(faults, 1);
 	// Function pointers globally initialised with non-pointer values should
 	// not be executable and should trap.
 	not_a_function();
-	assert(faults == 2);
+	assert_eq(faults, 2);
 END_TEST

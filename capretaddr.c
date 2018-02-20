@@ -34,9 +34,9 @@ static void __attribute__((noinline)) foo(void)
 {
 	void *ret = __builtin_return_address(0);
 	// Check that the return capability is, indeed, a capability
-	assert(__builtin_cheri_tag_get(ret) == 1);
+	assert_eq(__builtin_cheri_tag_get(ret), 1);
 	// Return capability should be executable
-	assert((__builtin_cheri_perms_get(ret) & __CHERI_CAP_PERMISSION_PERMIT_EXECUTE__) == __CHERI_CAP_PERMISSION_PERMIT_EXECUTE__);
+	assert_eq((__builtin_cheri_perms_get(ret) & __CHERI_CAP_PERMISSION_PERMIT_EXECUTE__), __CHERI_CAP_PERMISSION_PERMIT_EXECUTE__);
 	// Return capability offset should be after the pcc-relative offset of main.
 	assert(__builtin_cheri_offset_get(ret) > __builtin_cheri_offset_get(testfn));
 	// Approximate, but main really shouldn't need to be more than 100

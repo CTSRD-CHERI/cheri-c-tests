@@ -57,7 +57,7 @@ void test_setup(void);
 #define	DECLARE_TEST_FAULT	DECLARE_TEST
 #define BEGIN_TEST(name) \
     _Static_assert(sizeof(test_ ## name ## _desc) > 0, #name " not declared"); \
-	int main(void) { test_setup(); 
+	int main(void) { test_setup();
 #define END_TEST return 0; }
 
 #else /* !TEST_CUSTOM_FRAMEWORK */
@@ -70,10 +70,17 @@ void test_setup(void);
 #define XFAIL(x) do {} while(0)
 #endif
 
+#ifndef assert_eq
+#define assert_eq(a, b) assert((a) == (b))
+#endif
+#ifndef assert_eq_cap
+#define assert_eq_cap(a, b) assert((a) == (b))
+#endif
+
 #define ASSERT_HAS_PERMISSION(x, perm) \
-	assert((__builtin_cheri_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __) == __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __)
+	assert_eq((__builtin_cheri_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __), __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __)
 
 #define ASSERT_HAS_NOT_PERMISSION(x, perm) \
-	assert((__builtin_cheri_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __) == 0)
+	assert_eq((__builtin_cheri_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __), 0)
 
 #include "cheri_c_testdecls.h"

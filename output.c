@@ -48,7 +48,7 @@ BEGIN_TEST(output)
 	int x = 47;
 	foo(&x);
 	// Check that the store succeeded
-	assert(x == 42);
+	assert_eq(x, 42);
 	// Check that the fault actually occurred
-	assert(faults == 1);
+	assert_eq(faults, 1);
 END_TEST

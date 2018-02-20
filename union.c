@@ -46,17 +46,17 @@ BEGIN_TEST(union)
 	// locations and for the writes to be ordered after the reads.
 	volatile union ptr_or_data p;
 	p.ptr = ptr;
-	assert(__builtin_cheri_length_get(p.ptr) == 8);
-	assert(__builtin_cheri_tag_get(p.ptr) == 1);
+	assert_eq(__builtin_cheri_length_get(p.ptr), 8);
+	assert_eq(__builtin_cheri_tag_get(p.ptr), 1);
 	if (sizeof(void*) == 32)
 	{
 		p.words[3] = 400;
-		assert(__builtin_cheri_length_get(p.ptr) == 400);
+		assert_eq(__builtin_cheri_length_get(p.ptr), 400);
 	}
 	else
 	{
 		p.words[0] = 400;
 	}
-	assert(__builtin_cheri_tag_get(p.ptr) == 0);
+	assert_eq(__builtin_cheri_tag_get(p.ptr), 0);
 END_TEST
 

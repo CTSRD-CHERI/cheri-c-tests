@@ -45,16 +45,16 @@ void check_allocation(void *a, long size)
 	ASSERT_HAS_PERMISSION(a, STORE);
 	ASSERT_HAS_PERMISSION(a, LOAD_CAPABILITY);
 	ASSERT_HAS_PERMISSION(a, LOAD);
-	assert(__builtin_cheri_offset_get(a) == 0);
+	assert_eq(__builtin_cheri_offset_get(a), 0);
 	// There must be enough for the object (more is permitted)
 	assert(__builtin_cheri_length_get(a) >= size);
 #ifdef HAVE_MALLOC_USUABLE_SIZE
-	assert(__builtin_cheri_length_get(a) == malloc_usable_size(a));
+	assert_eq(__builtin_cheri_length_get(a), malloc_usable_size(a));
 #endif
 	// If there is space for a pointer, the allocation must be aligned
 	// sufficiently to hold one.
 	if (size >= sizeof(void *))
-		assert((__builtin_cheri_base_get(a) & (sizeof(void*) - 1)) == 0);
+		assert_eq((__builtin_cheri_base_get(a) & (sizeof(void*) - 1)), 0);
 }
 
 void check_size(long size)
@@ -65,7 +65,7 @@ void check_size(long size)
 	check_allocation(b, size);
 	for (int i = 0 ; i<size-1 ; i++)
 	{
-		assert(b[i] == 0);
+		assert_eq(b[i], 0);
 	}
 	free(a);
 	free(b);

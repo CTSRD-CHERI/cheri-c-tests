@@ -47,9 +47,9 @@ BEGIN_TEST(input)
 	int x = 47;
 	int y = foo(&x);
 	// Check that the store failed.
-	assert(x == 47);
+	assert_eq(x, 47);
 	// Check that the load succeeded.
-	assert(y == 47);
+	assert_eq(y, 47);
 	// Check that the fault actually occurred
-	assert(faults == 1);
+	assert_eq(faults, 1);
 END_TEST

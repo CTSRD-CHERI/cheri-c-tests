@@ -36,11 +36,11 @@ BEGIN_TEST(string)
 	char str3[sizeof(str2)];
 	// For short strings, we should have byte-granularity lengths.
 	// The other tests are checking that we don't overflow the end in string test.
-	assert(__builtin_cheri_length_get(str) == sizeof(str));
-	assert(strcmp(str, str2) == 0);
-	assert(strlen(str) == 9);
+	assert_eq(__builtin_cheri_length_get(str), sizeof(str));
+	assert_eq(strcmp(str, str2), 0);
+	assert_eq(strlen(str), 9);
 	strcpy(str3, str2);
-	assert(strcmp(str, str3) == 0);
+	assert_eq(strcmp(str, str3), 0);
 	memcpy(str3, str2, sizeof(str2));
-	assert(strcmp(str, str3) == 0);
+	assert_eq(strcmp(str, str3), 0);
 END_TEST

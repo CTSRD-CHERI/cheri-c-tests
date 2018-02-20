@@ -51,31 +51,31 @@ fn f = test_fn_ptr;
 
 BEGIN_TEST(init)
 	// Check that the initialisation of a pointer to a global worked:
-	assert(bar[0] == '0');
-	assert(bar[1] == '1');
-	assert(bar[2] == '2');
-	assert(bar[3] == '3');
-	assert(bar[4] == '4');
-	assert(bar[5] == 0);
+	assert_eq(bar[0], '0');
+	assert_eq(bar[1], '1');
+	assert_eq(bar[2], '2');
+	assert_eq(bar[3], '3');
+	assert_eq(bar[4], '4');
+	assert_eq(bar[5], 0);
 	// Pointers to globals should not be executable capabilities
 	ASSERT_HAS_NOT_PERMISSION(bar, EXECUTE);
 	// At least for small allocations, this pointer should be exactly the size
 	// of the global.
-	assert(__builtin_cheri_length_get((void*)bar) == sizeof(foo));
-	assert((void*)bar == &foo);
+	assert_eq(__builtin_cheri_length_get((void*)bar), sizeof(foo));
+	assert_eq_cap((void*)bar, &foo);
 	// Check that the two function pointers point to the correct place.
-	assert(f == test_fn_ptr);
-	assert(x.f == test_fn_ptr);
+	assert_eq_cap(f, test_fn_ptr);
+	assert_eq_cap(x.f, test_fn_ptr);
 	// Pointers to functions should be executable capabilities
 	ASSERT_HAS_PERMISSION(f, EXECUTE);
 	void *pcc = __builtin_cheri_program_counter_get();
 	// Pointers to functions should be pcc with the offset set to the address
 	// of the function.
-	assert(__builtin_cheri_length_get(pcc) == __builtin_cheri_length_get(f));
-	assert(__builtin_cheri_base_get(pcc) == __builtin_cheri_base_get(f));
+	assert_eq(__builtin_cheri_length_get(pcc), __builtin_cheri_length_get(f));
+	assert_eq(__builtin_cheri_base_get(pcc), __builtin_cheri_base_get(f));
 	// That's all good in theory - now check that we can actually call the
 	// functions!
 	x.f();
 	f();
-	assert(called == 2);
+	assert_eq(called, 2);
 END_TEST

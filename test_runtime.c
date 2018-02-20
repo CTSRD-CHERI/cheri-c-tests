@@ -113,7 +113,7 @@ getCHERIFrame(mcontext_t *context)
 #ifdef __CHERI_SANDBOX__
 	return &context->mc_cheriframe;
 #else
-	assert(context->mc_cp2state_len == sizeof(struct cheri_frame));
+	assert_eq(context->mc_cp2state_len, sizeof(struct cheri_frame));
 	return ((struct cheri_frame *)context->mc_cp2state);
 #endif
 }
@@ -360,7 +360,7 @@ capsighandler(int signo, siginfo_t *info, ucontext_t *uap)
 	register_t pc = context->mc_pc;
 	struct cheri_frame *frame = getCHERIFrame(context);
 	__capability void *reg = getCapRegAtIndex(context, frame->cf_capcause & 0xff);
-	assert(signo == SIGPROT);
+	assert_eq(signo, SIGPROT);
 	assert(test_fault_handler);
 
 	test_fault_handler(reg, frame->cf_capcause >> 8);

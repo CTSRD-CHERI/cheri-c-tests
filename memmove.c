@@ -48,7 +48,7 @@ BEGIN_TEST(memmove)
 	memmove(buffer, &buffer[2], sizeof(buffer) - 2*sizeof(char*));
 	for (int i=0 ; i<8 ; i++)
 	{
-		assert(*buffer[i] == '0' + i + 2);
+		assert_eq(*buffer[i], '0' + i + 2);
 	}
 END_TEST
 

@@ -34,18 +34,18 @@ static void printstuff(char *fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
-	assert(faults == 0);
+	assert_eq(faults, 0);
 	for (int i=1 ; i<10 ; i++)
 	{
 		int x = va_arg(ap, int);
 		if (faults > 0)
 		{
-			assert(i == 9);
+			assert_eq(i, 9);
 			break;
 		}
-		assert(x == i);
+		assert_eq(x, i);
 	}
-	assert(faults == 1);
+	assert_eq(faults, 1);
 	va_end(ap);
 }
 

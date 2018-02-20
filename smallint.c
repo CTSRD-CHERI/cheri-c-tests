@@ -57,8 +57,8 @@ BEGIN_TEST(smallint)
 	PtrIntPair p;
 	p.ptr = str;
 	p = set_int(p, 4);
-	assert(get_int(p) == 4);
+	assert_eq(get_int(p), 4);
 	char *ptr = get_pointer(p);
-	assert(ptr == str);
-	assert(ptr[0] == '1');
+	assert_eq_cap(ptr, str);
+	assert_eq(ptr[0], '1');
 END_TEST

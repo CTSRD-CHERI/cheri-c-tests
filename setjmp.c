@@ -35,27 +35,27 @@ static jmp_buf buf;
 
 void dolongjump(void)
 {
-	assert(position == 3);
+	assert_eq(position, 3);
 	position++;
 	longjmp(buf, 2);
 }
 
 void dosetjump(void)
 {
-	assert(position == 1);
+	assert_eq(position, 1);
 	position++;
 	int result = setjmp(buf);
 	if (result == 0)
 	{
-		assert(position == 2);
+		assert_eq(position, 2);
 		position++;
 		dolongjump();
 	}
-	assert(position == 4);
+	assert_eq(position, 4);
 }
 
 BEGIN_TEST(setjmp)
-	assert(position == 0);
+	assert_eq(position, 0);
 	position++;
 	dosetjump();
 END_TEST

@@ -46,8 +46,8 @@ foo_byval(struct foo f)
 BEGIN_TEST(byval_args)
 	/* Check that structs passed by value are actually copied */
 	memset(global_foo.data, 0, sizeof(global_foo.data));
-	assert(global_foo.data[0] == 0);
+	assert_eq(global_foo.data[0], 0);
 	foo_byval(global_foo);
-	assert(global_foo.data[0] == 0);
+	assert_eq(global_foo.data[0], 0);
 END_TEST
 

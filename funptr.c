@@ -40,10 +40,10 @@ static const char * retsrt(void) {
 
 BEGIN_TEST(funptr)
 #ifdef INCLUDE_XFAIL
-	assert(sizeof(&retsrt) == sizeof(void *));
+	assert_eq(sizeof(&retsrt), sizeof(void *));
 #endif
 	const char *(*fp)(void) = &retsrt;
-	assert(sizeof(fp) == sizeof(void *));
-	assert(strcmp(fp(), STRVAL) == 0);
+	assert_eq(sizeof(fp), sizeof(void *));
+	assert_eq(strcmp(fp(), STRVAL), 0);
 END_TEST
 

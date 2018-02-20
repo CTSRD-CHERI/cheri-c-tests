@@ -35,25 +35,25 @@ volatile __intcap_t one = 1;
 BEGIN_TEST(intcap)
 	char str[] = "0123456789";
 	__intcap_t foo = 42;
-	assert(__builtin_cheri_tag_get((void*)foo) == 0);
-	assert(__builtin_cheri_offset_get((void*)foo) == 42);
-	assert(__builtin_cheri_base_get((void*)foo) == 0);
+	assert_eq(__builtin_cheri_tag_get((void*)foo), 0);
+	assert_eq(__builtin_cheri_offset_get((void*)foo), 42);
+	assert_eq(__builtin_cheri_base_get((void*)foo), 0);
 	foo = (__intcap_t)str;
-	assert(__builtin_cheri_tag_get((void*)foo) == 1);
-	assert(__builtin_cheri_tag_get((void*)foo) == 1);
+	assert_eq(__builtin_cheri_tag_get((void*)foo), 1);
+	assert_eq(__builtin_cheri_tag_get((void*)foo), 1);
 	foo += 5;
-	assert((*(char*)foo) == '5');
-	assert(__builtin_cheri_offset_get((void*)foo) == 5);
-	assert(__builtin_cheri_base_get((void*)foo) == __builtin_cheri_base_get(str));
-	assert(__builtin_cheri_length_get((void*)foo) == __builtin_cheri_length_get(str));
+	assert_eq((*(char*)foo), '5');
+	assert_eq(__builtin_cheri_offset_get((void*)foo), 5);
+	assert_eq(__builtin_cheri_base_get((void*)foo), __builtin_cheri_base_get(str));
+	assert_eq(__builtin_cheri_length_get((void*)foo), __builtin_cheri_length_get(str));
 	foo += 50;
 	// Ensure that the +50 is not removed
 	tmp = foo;
 	foo = tmp;
 	foo -= 50;
-	assert((*(char*)foo) == '5');
-	assert(__builtin_cheri_offset_get((void*)foo) == 5);
+	assert_eq((*(char*)foo), '5');
+	assert_eq(__builtin_cheri_offset_get((void*)foo), 5);
 	// Valid capabilities are strictly ordered after invalid ones
 	assert(0xffffffffffffffffULL < foo);
-	assert(one == 1);
+	assert_eq(one, 1);
 END_TEST
