@@ -35,7 +35,7 @@ static int  __attribute__((noinline)) foo(__output int* x)
 {
 	// Check that a load causes a fault.  This will trap to the handler and
 	// increment the fault count.
-	int y = *(int*)x;
+	int y = *(volatile int*)x;
 	ASSERT_HAS_NOT_PERMISSION(x, LOAD);
 	ASSERT_HAS_NOT_PERMISSION(x, LOAD_CAPABILITY);
 	ASSERT_HAS_PERMISSION(x, STORE);
