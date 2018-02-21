@@ -51,7 +51,6 @@ BEGIN_TEST(union)
 	if (sizeof(void*) == 32)
 	{
 		p.words[3] = 400;
-		assert_eq(__builtin_cheri_length_get(p.ptr), 400);
 	}
 	else
 	{
