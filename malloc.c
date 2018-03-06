@@ -82,6 +82,6 @@ BEGIN_TEST(malloc)
 	for (int i=1; i <= max ; i++)
 	{
 		check_size(1<<i);
-		check_size(1<<i + 1);
+		check_size((1<<i) + 1);
 	}
 END_TEST
