@@ -36,7 +36,7 @@
 #warning The test suite is currently expected to work only on FreeBSD.
 #endif
 
-typedef void (*cheri_handler)(void *, int);
+typedef void (*cheri_handler)(void *__capability, int);
 
 extern cheri_handler test_fault_handler;
 extern volatile int faults;

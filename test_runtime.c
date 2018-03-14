@@ -41,7 +41,7 @@
 
 static const size_t cap_size = sizeof(void*);
 
-static void handler(void *capreg, int cause)
+static void handler(void *__capability capreg, int cause)
 {
 	faults++;
 }
@@ -146,7 +146,7 @@ getImm(uint32_t instr, int start, int len)
 /**
  * Loads a capability register from the context.
  */
-static inline void*
+static inline void *__capability
 getCapRegAtIndex(mcontext_t *context, int idx)
 {
 	struct cheri_frame *frame = getCHERIFrame(context);
@@ -157,11 +157,11 @@ getCapRegAtIndex(mcontext_t *context, int idx)
 	}
 	_Static_assert(offsetof(struct cheri_frame, cf_ddc) == 0,
 			"Layout of struct cheri_frame has changed!");
-	_Static_assert(offsetof(struct cheri_frame, cf_pcc) == 27*sizeof(void*),
+	_Static_assert(offsetof(struct cheri_frame, cf_pcc) == 27*sizeof(void *__capability),
 			"Layout of struct cheri_frame has changed!");
 	assert((idx < 26) && (idx >= 0) &&
 	       "Invalid capability register index");
-	return (((void **)frame)[idx]);
+	return (((void *__capability*)frame)[idx]);
 }
 
 static inline uint32_t *
@@ -197,7 +197,7 @@ getReg(mcontext_t *context, uint32_t instr, int opidx)
  * based on an opcode in an instruction.  The `opidx` parameter gives the bit
  * index into the instruction where the operand starts.
  */
-static inline void*
+static inline void *__capability
 getCapReg(mcontext_t *context, uint32_t instr, int opidx)
 {
 	int regno = getImm(instr, opidx, 5);
@@ -316,14 +316,14 @@ emulateBranch(mcontext_t *context, register_t pc)
 			{
 				case CHERI_BRANCH_CBTU:
 				{
-					void *cap = getCapReg(context, instr, 20);
+					void *__capability cap = getCapReg(context, instr, 20);
 					bool tag = __builtin_mips_cheri_get_cap_tag(cap);
 					context->mc_pc = (!tag ? branchPc : normalPc);
 					return true;
 				}
 				case CHERI_BRANCH_CBTS:
 				{
-					void *cap = getCapReg(context, instr, 20);
+					void *__capability cap = getCapReg(context, instr, 20);
 					bool tag = __builtin_mips_cheri_get_cap_tag(cap);
 					context->mc_pc = (tag ? branchPc : normalPc);
 					return true;
@@ -338,7 +338,7 @@ emulateBranch(mcontext_t *context, register_t pc)
 					// Note: The /cap_size is safe here because if this is not
 					// aligned then the load will fail anyway...
 					int regno = offsetof(struct cheri_frame, cf_pcc) / cap_size;
-					(((void **)frame)[regno]) =
+					(((void *__capability*)frame)[regno]) =
 						getCapReg(context, instr, 15);
 					return true;
 				}
@@ -359,7 +359,7 @@ capsighandler(int signo, siginfo_t *info, ucontext_t *uap)
 	bool isDelaySlot = isInDelaySlot(context);
 	register_t pc = context->mc_pc;
 	struct cheri_frame *frame = getCHERIFrame(context);
-	void *reg = getCapRegAtIndex(context, frame->cf_capcause & 0xff);
+	void *__capability reg = getCapRegAtIndex(context, frame->cf_capcause & 0xff);
 	assert_eq(signo, SIGPROT);
 	assert(test_fault_handler);
 
