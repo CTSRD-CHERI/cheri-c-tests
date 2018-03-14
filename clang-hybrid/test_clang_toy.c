@@ -24,7 +24,7 @@
  *
  * @BERI_LICENSE_HEADER_END@
  */
-#include "assert.h"
+#include "cheri_c_test.h"
 
 __attribute__((noinline))
 static int anotherTest(int spare)
@@ -32,10 +32,9 @@ static int anotherTest(int spare)
 	return 53;
 }
 
-int test(void)
-{
+BEGIN_TEST(clang_toy)
 	int a = 42;
 	a += anotherTest(a);
 	assert(a == 42+53);
-	return success_if_no_exceptions();
-}
+	assert(faults == 0);
+END_TEST

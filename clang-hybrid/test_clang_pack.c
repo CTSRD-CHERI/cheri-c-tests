@@ -31,7 +31,7 @@
  * clang will compile the assignment to x.b into swl and swr instructions.
  */
 
-#include "assert.h"
+#include "cheri_c_test.h"
 
 #pragma pack(1)
 struct packed_s {
@@ -69,8 +69,7 @@ void check_struct()
   assert(x.c == 0x05);
 }
 
-int test(void)
-{
+BEGIN_TEST(clang_pack)
 int i;
 char *cp;
 
@@ -80,6 +79,5 @@ char *cp;
 
   check_struct();
 
-  return success_if_no_exceptions();
-
-}
+  assert(faults == 0);
+END_TEST

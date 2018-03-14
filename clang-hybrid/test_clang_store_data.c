@@ -25,7 +25,7 @@
  * @BERI_LICENSE_HEADER_END@
  */
 
-#include "assert.h"
+#include "cheri_c_test.h"
 
 #define TYPE signed char
 #define NAME i8
@@ -52,8 +52,7 @@
 #define NAME u64
 #include "store_test.h"
 
-int test(void)
-{
+BEGIN_TEST(clang_store_data)
 	u8_test();
 	i8_test();
 	u16_test();
@@ -63,5 +62,5 @@ int test(void)
 	u64_test();
 	i64_test();
 
-	return success_if_no_exceptions();
-}
+	assert(faults == 0);
+END_TEST

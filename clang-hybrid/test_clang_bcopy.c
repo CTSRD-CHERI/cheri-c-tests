@@ -24,7 +24,7 @@
  *
  * @BERI_LICENSE_HEADER_END@
  */
-#include "assert.h"
+#include "cheri_c_test.h"
 
 typedef __SIZE_TYPE__ size_t;                    
 
@@ -76,8 +76,7 @@ void invalidate(struct Test *t1)
 }
 
 // Run the memcpy tests
-int test(void)
-{
+BEGIN_TEST(clang_bcopy)
 	struct Test t1, t2;
 
 	invalidate(&t2);
@@ -157,6 +156,6 @@ int test(void)
 	/*
 	*/
 
-	return success_if_no_exceptions();
-}
+	assert(faults == 0);
+END_TEST
 

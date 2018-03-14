@@ -25,16 +25,15 @@
  * @BERI_LICENSE_HEADER_END@
  */
 
-#include "assert.h"
+#include "cheri_c_test.h"
 
 static char data[] = {1, 2, 3, 4, 5, 6, 7, 8};
 
-int test(void)
-{
+BEGIN_TEST(clang_cast)
   // FIXME: __cheri_cast doesn't allow array-to-pointer decay :(
   char * __capability datacp = (__cheri_tocap char * __capability)&data[0];
 
   assert((__cheri_fromcap char*)datacp == data);
 
-  return success_if_no_exceptions();
-}
+  assert(faults == 0);
+END_TEST

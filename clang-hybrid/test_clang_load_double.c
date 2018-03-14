@@ -25,7 +25,7 @@
  * @BERI_LICENSE_HEADER_END@
  */
 
-#include "assert.h"
+#include "cheri_c_test.h"
 
 /*
  * Test that a C program can read a double-precision floating point value
@@ -82,8 +82,7 @@ double *__capability dp;
     return 0;
 }
 
-int test(void)
-{
+BEGIN_TEST(clang_load_double)
 
   config1 = get_config_reg();
   if (config1 & 0x1)
@@ -91,5 +90,5 @@ int test(void)
   else
     assert(1);
 
-  return success_if_no_exceptions();
-}
+  assert(faults == 0);
+END_TEST

@@ -32,13 +32,11 @@
  * then subtraction should return the difference between the array indices.
  */
 
-#include "assert.h"
+#include "cheri_c_test.h"
 
 static const char *str = "0123456789ABCDEF";
 
-int
-test(void)
-{
+BEGIN_TEST(clang_sub)
 
 	const char * __capability a;
 	const char * __capability b;
@@ -48,5 +46,5 @@ test(void)
         b = a + 5;
         x = b - a;
 	assert(x == 5);
-	return success_if_no_exceptions();
-}
+	assert(faults == 0);
+END_TEST

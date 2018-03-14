@@ -29,7 +29,7 @@
  * Test that can create a capability to a static struct
  */
 
-#include "assert.h"
+#include "cheri_c_test.h"
 
 struct example {
   int x;
@@ -48,12 +48,11 @@ struct example *__capability example_constructor(void)
   return result;
 }
 
-int test(void)
-{
+BEGIN_TEST(clang_struct)
   struct example *__capability e;
 
   e = example_constructor();
   assert(e->x == 0);
 
-  return success_if_no_exceptions();
-}
+  assert(faults == 0);
+END_TEST

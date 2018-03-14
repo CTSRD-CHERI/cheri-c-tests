@@ -24,15 +24,13 @@
  *
  * @BERI_LICENSE_HEADER_END@
  */
-#include "assert.h"
+#include "cheri_c_test.h"
+
 int buffer[42];
 
-extern volatile long long exception_count;
-
-int test(void)
-{
+BEGIN_TEST(clang_cursor_trivial)
 	int * __capability b = (__cheri_tocap int * __capability)&buffer[0];
-	long long count = exception_count;
+	long long count = faults;
 	b[41] = 12;
 	// Explicitly set the length of the capability, in case the compiler
 	// fails.
@@ -43,7 +41,7 @@ int test(void)
 	v = __builtin_cheri_offset_increment((void * __capability)v,
 		42*sizeof(int));
 	int unused = *v;
-	assert(exception_count == count+1);
+	assert(faults == count+1);
 	// Move the cursor back into range and check that it works
 	v = __builtin_cheri_offset_increment((void * __capability)v,
 		(-1)*sizeof(int));
@@ -52,13 +50,13 @@ int test(void)
 	// an exception
 	v = __builtin_cheri_offset_set((void * __capability)v, -1);
 	unused = *v;
-	assert(exception_count == count+2);
+	assert(faults == count+2);
 	// Move the cursor back into range and check that it works
 	// XXX: This might not work with imprecise capabilities, as the
 	// base might be lower than the start of the array.
 	v = __builtin_cheri_offset_set((void * __capability)v, 41*sizeof(int));
 	assert(*v == 12);
 
-	assert_eq(exception_count, 2);
+	assert_eq(faults, 2);
 	return 0;
 }

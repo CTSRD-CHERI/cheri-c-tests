@@ -25,7 +25,8 @@
  * @BERI_LICENSE_HEADER_END@
  */
 
-#include "assert.h"
+#include <assert.h>
+#include "cheri_c_test.h"
 
 /*
  * Align the structure to avoid representability exceptions
@@ -86,8 +87,7 @@ example_t p;
   return p->x;
 }
 
-int test(void)
-{
+BEGIN_TEST(clang_opaque)
 example_t e;
 int r;
 
@@ -96,5 +96,5 @@ int r;
   r = example_method(e);
   assert(r == 1);
 
-  return success_if_no_exceptions();
-}
+  assert(faults == 0);
+END_TEST

@@ -29,7 +29,7 @@
  *
  * @BERI_LICENSE_HEADER_END@
  */
-#include "assert.h"
+#include "cheri_c_test.h"
 int buffer[42];
 
 __attribute__((noinline))
@@ -50,8 +50,7 @@ void get(int* __capability x)
 	}
 }
 
-int test(void)
-{
+BEGIN_TEST(clang_cursor)
 	// Explicitly set the size of the capability
 	int * __capability b =
 		__builtin_cheri_bounds_set((__cheri_tocap int * __capability)&buffer[0],
@@ -74,8 +73,6 @@ int test(void)
 	assert(41*sizeof(int) == __builtin_cheri_offset_get(b));
 
 	// Check that the pointer version of the capability is what we'd expect
-	DEBUG_DUMP_REG(18, (__cheri_fromcap int*)b);
-	DEBUG_DUMP_REG(19, &buffer);
 	assert(((__cheri_fromcap int*)b) == &buffer[41]);
 
 	// Check that we can read all of the array back by reverse iteration
@@ -91,5 +88,5 @@ int test(void)
 	assert(__builtin_cheri_offset_get(v) == 0);
 
 	// Nothing in this test should have triggered any exceptions
-	return success_if_no_exceptions();
-}
+	assert(faults == 0);
+END_TEST
