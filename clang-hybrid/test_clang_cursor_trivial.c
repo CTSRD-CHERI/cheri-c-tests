@@ -57,6 +57,6 @@ BEGIN_TEST(clang_cursor_trivial)
 	v = __builtin_cheri_offset_set((void * __capability)v, 41*sizeof(int));
 	assert(*v == 12);
 
-	assert_eq(faults, 2);
+	assert(faults == 2);
 	return 0;
 }
