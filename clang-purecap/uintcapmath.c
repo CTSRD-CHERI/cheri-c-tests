@@ -30,6 +30,7 @@
  */
 
 #include "cheri_c_test.h"
+#include <stdint.h>
 
 #ifndef _TEST_INT_TYPE
 #define	_TEST_INT_TYPE	__uintcap_t

@@ -30,7 +30,6 @@
 #ifndef TEST_CUSTOM_FRAMEWORK
 #include <assert.h>
 #endif
-#include <stdint.h>
 
 #ifndef __FreeBSD__
 #warning The test suite is currently expected to work only on FreeBSD.
