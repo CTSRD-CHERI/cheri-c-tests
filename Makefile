@@ -4,56 +4,54 @@
 SDK_ROOT ?= ~/sdk/
 
 TESTS=$(TESTS_CLANG_PURECAP) $(TESTS_CLANG_HYBRID) $(TESTS_LIBC)
+TESTS_DIRS=$(TESTS_CLANG_HYBRID_DIR) $(TESTS_CLANG_PURECAP_DIR) $(TESTS_LIBC_DIR)
 TESTS_CLANG_PURECAP_DIR=clang-purecap
 TESTS_CLANG_HYBRID_DIR=clang-hybrid
 TESTS_CLANG_PURECAP:=\
-	array\
-	atomic\
-	badcall\
-	capcmp\
-	capret\
-	capretaddr\
-	funptr\
-	init\
-	input\
-	int64math\
-	intcap\
-	null\
-	output\
-	smallint\
-	stack_cap\
-	uint64math\
-	uintcapmath\
-	union\
-	va_args\
-	va_copy\
-	va_die
+	clang_purecap_array\
+	clang_purecap_atomic\
+	clang_purecap_badcall\
+	clang_purecap_capcmp\
+	clang_purecap_capret\
+	clang_purecap_capretaddr\
+	clang_purecap_funptr\
+	clang_purecap_init\
+	clang_purecap_input\
+	clang_purecap_int64math\
+	clang_purecap_intcap\
+	clang_purecap_null\
+	clang_purecap_output\
+	clang_purecap_smallint\
+	clang_purecap_stack_cap\
+	clang_purecap_uint64math\
+	clang_purecap_uintcapmath\
+	clang_purecap_union\
+	clang_purecap_va_args\
+	clang_purecap_va_copy\
+	clang_purecap_va_die
 TESTS_CLANG_HYBRID:=\
-	test_clang_cursor\
-	test_clang_load_double\
-	test_clang_pack\
-	test_clang_sub\
-	test_clang_bcopy\
-	test_clang_cursor_trivial\
-	test_clang_load_float\
-	test_clang_store_data\
-	test_clang_toy\
-	test_clang_cast\
-	test_clang_load_data\
-	test_clang_opaque\
-	test_clang_struct
+	clang_hybrid_bcopy\
+	clang_hybrid_cast\
+	clang_hybrid_cursor\
+	clang_hybrid_cursor_trivial\
+	clang_hybrid_load_data\
+	clang_hybrid_load_double\
+	clang_hybrid_load_float\
+	clang_hybrid_opaque\
+	clang_hybrid_pack\
+	clang_hybrid_store_data\
+	clang_hybrid_struct\
+	clang_hybrid_sub\
+	clang_hybrid_toy
 TESTS_LIBC_DIR=libc
 TESTS_LIBC:=\
-	malloc\
-	memcpy\
-	memmove\
-	printf\
-	qsort\
-	setjmp\
-	string
-TESTS_CLANG_PURECAP:=$(addprefix $(TESTS_CLANG_PURECAP_DIR)/, $(TESTS_CLANG_PURECAP))
-TESTS_CLANG_HYBRID:=$(addprefix $(TESTS_CLANG_HYBRID_DIR)/, $(TESTS_CLANG_HYBRID))
-TESTS_LIBC:=$(addprefix $(TESTS_LIBC_DIR)/, $(TESTS_LIBC))
+	libc_malloc\
+	libc_memcpy\
+	libc_memmove\
+	libc_printf\
+	libc_qsort\
+	libc_setjmp\
+	libc_string
 
 CFLAGS=-mcpu=mips4 -mabi=purecap -msoft-float -g -cheri-linker -Werror -O3 -target cheri-unknown-freebsd
 CFLAGS+=-DHAVE_MALLOC_USUABLE_SIZE
@@ -65,6 +63,8 @@ CFLAGS_TESTS_CLANG_PURECAP =-mabi=purecap $(CFLAGS_TESTS_CLANG_)
 LDFLAGS=-cheri-linker -lc -lmalloc_simple
 LDFLAGS_TESTS_CLANG_HYBRID=$(LDFLAGS:-lmalloc_simple=)
 
+VPATH:=$(TESTS_DIRS)
+
 
 all: $(TESTS_CLANG_PURECAP) $(TESTS_CLANG_HYBRID) $(TESTS_LIBC) run.sh
 
@@ -74,11 +74,11 @@ install: all
 %: %.c test_runtime.o Makefile
 	${SDK_ROOT}/bin/clang test_runtime.o ${CFLAGS} ${LDFLAGS} $< -o $@
 
-$(TESTS_CLANG_PURECAP_DIR)/%: $(TESTS_CLANG_PURECAP_DIR)/%.c test_runtime.o Makefile
+$(TESTS_CLANG_PURECAP): %: %.c test_runtime.o Makefile
 	${SDK_ROOT}/bin/clang test_runtime.o $(CFLAGS_TESTS_CLANG_PURECAP) $(LDFLAGS) $< -o $@
 
-$(TESTS_CLANG_HYBRID_DIR)/%: $(TESTS_CLANG_HYBRID_DIR)/%.c $(TESTS_CLANG_HYBRID_DIR)/test_runtime.o Makefile
-	${SDK_ROOT}/bin/clang $(TESTS_CLANG_HYBRID_DIR)/test_runtime.o $(CFLAGS_TESTS_CLANG_HYBRID) $(LDFLAGS_TESTS_CLANG_HYBRID) $< -o $@
+$(TESTS_CLANG_HYBRID): %: %.c test_runtime.n64.o Makefile
+	${SDK_ROOT}/bin/clang test_runtime.n64.o $(CFLAGS_TESTS_CLANG_HYBRID) $(LDFLAGS_TESTS_CLANG_HYBRID) $< -o $@
 
 %.ll: %.c Makefile
 	${SDK_ROOT}/bin/clang ${CFLAGS} -S $< -o $@ -emit-llvm
@@ -92,14 +92,14 @@ $(TESTS_CLANG_HYBRID_DIR)/%: $(TESTS_CLANG_HYBRID_DIR)/%.c $(TESTS_CLANG_HYBRID_
 test_runtime.o: test_runtime.c
 	${SDK_ROOT}/bin/clang -c ${CFLAGS} $< -o $@
 
-$(TESTS_CLANG_HYBRID_DIR)/test_runtime.o: test_runtime.c
-	${SDK_ROOT}/bin/clang -c ${CFLAGS_TESTS_CLANG_HYBRID} $< -o $@
+test_runtime.n64.o: test_runtime.c
+	${SDK_ROOT}/bin/clang -c $(CFLAGS:purecap=n64) $< -o $@
 
 run.sh: run.sh.in
 	sed 's/{INCLUDE_TESTS}/${TESTS}/g' run.sh.in > run.sh
 
 clean:
-	rm -f ${TESTS} test_runtime.o $(TESTS_CLANG_HYBRID_DIR)/test_runtime.o run.sh
+	rm -f ${TESTS} test_runtime.o test_runtime.n64.o run.sh
 
 
 %: %.c

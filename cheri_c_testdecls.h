@@ -39,6 +39,7 @@
  * of DECLARE_TEST and DECLARE_TEST_FAULT.
  */
 
+/* TODO: update test names to correspond to test-file names */
 DECLARE_TEST_FAULT(array, "on-stack array")
 DECLARE_TEST(atomic, "C11 atomic types")
 DECLARE_TEST_FAULT(badcall, "calling non-functions")
