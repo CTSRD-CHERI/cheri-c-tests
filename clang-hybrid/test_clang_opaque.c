@@ -26,6 +26,8 @@
  */
 
 #include <assert.h>
+#include <machine/sysarch.h>
+
 #include "cheri_c_test.h"
 
 /*
@@ -61,7 +63,9 @@ void example_init(void)
  * Set its base+offset to the otype we want to use. Note that otypes must
  * be in the range 0 to 2^24-1.
  */
-  example_key = (void * __capability) 4;
+  void *__capability sealing_cap;
+  assert(sysarch(CHERI_GET_SEALCAP, &sealing_cap) == 0);
+  example_key = __builtin_cheri_offset_set(sealing_cap, 4);
 }
 
 example_t example_constructor(void)

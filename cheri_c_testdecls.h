@@ -77,7 +77,6 @@ DECLARE_TEST_FAULT(clang_cursor_trivial, "capability offset faults");
 DECLARE_TEST(clang_load_data, "load data via capability");
 DECLARE_TEST(clang_load_double, "load doubles via capability");
 DECLARE_TEST(clang_load_float, "load floats via capability");
-/* XXX-LPT: expect to unexpectedly fault due to DDC missing CHERI_PERM_SEAL */
 DECLARE_TEST(clang_opaque, "seal/unseal capability");
 DECLARE_TEST(clang_pack, "unaligned store");
 DECLARE_TEST(clang_store_data, "store data via capability");
