@@ -55,7 +55,7 @@ TESTS_CLANG_PURECAP:=$(addprefix $(TESTS_CLANG_PURECAP_DIR)/, $(TESTS_CLANG_PURE
 TESTS_CLANG_HYBRID:=$(addprefix $(TESTS_CLANG_HYBRID_DIR)/, $(TESTS_CLANG_HYBRID))
 TESTS_LIBC:=$(addprefix $(TESTS_LIBC_DIR)/, $(TESTS_LIBC))
 
-CFLAGS=-mabi=purecap -msoft-float -cheri-linker -Werror -O3
+CFLAGS=-mcpu=mips4 -mabi=purecap -msoft-float -g -cheri-linker -Werror -O3 -target cheri-unknown-freebsd
 CFLAGS+=-DHAVE_MALLOC_USUABLE_SIZE
 CFLAGS+=-I.
 CFLAGS_TESTS_CLANG_=$(CFLAGS:-mabi%=)
