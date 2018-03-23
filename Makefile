@@ -34,9 +34,12 @@ TESTS_CLANG_HYBRID:=\
 	clang_hybrid_cast\
 	clang_hybrid_cursor\
 	clang_hybrid_cursor_trivial\
+	clang_hybrid_intcap\
 	clang_hybrid_load_data\
 	clang_hybrid_load_double\
 	clang_hybrid_load_float\
+	clang_hybrid_memcpy\
+	clang_hybrid_memmove\
 	clang_hybrid_opaque\
 	clang_hybrid_pack\
 	clang_hybrid_store_data\

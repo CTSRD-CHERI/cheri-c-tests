@@ -89,4 +89,6 @@ void test_setup(void);
 #define DEBUG_NOP() \
 	__asm__ volatile ("nop")
 
+#define TO_CAP(x) ((__cheri_tocap void * __capability)(void*)(x))
+
 #include "cheri_c_testdecls.h"

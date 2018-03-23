@@ -71,13 +71,16 @@ DECLARE_TEST_FAULT(va_args, "varidac functions")
 DECLARE_TEST(va_copy, "va_copy copies")
 DECLARE_TEST_FAULT(va_die, "consume too many varargs")
 
-DECLARE_TEST(clang_bcopy, "memcpy");
+DECLARE_TEST(clang_bcopy, "bcopy");
 DECLARE_TEST(clang_cast, "capability to array");
 DECLARE_TEST(clang_cursor, "capability offset arithmetic");
 DECLARE_TEST_FAULT(clang_cursor_trivial, "capability offset faults");
+DECLARE_TEST(clang_hybrid_intcap, "__intcap_t to/from cast and arith");
 DECLARE_TEST(clang_load_data, "load data via capability");
 DECLARE_TEST(clang_load_double, "load doubles via capability");
 DECLARE_TEST(clang_load_float, "load floats via capability");
+DECLARE_TEST(clang_memcpy, "memcpy");
+DECLARE_TEST(clang_memmove, "memmove");
 DECLARE_TEST(clang_opaque, "seal/unseal capability");
 DECLARE_TEST(clang_pack, "unaligned store");
 DECLARE_TEST(clang_store_data, "store data via capability");
