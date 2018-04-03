@@ -31,4 +31,5 @@
 
 #define _TEST_INT_TYPE	__intcap_t
 #define _TEST_SIGNED
+#pragma clang diagnostic ignored "-Wcheri-bitwise-operations"
 #include "uintcapmath.c"

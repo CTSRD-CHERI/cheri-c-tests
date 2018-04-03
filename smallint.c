@@ -29,6 +29,9 @@
  */
 #include "cheri_c_test.h"
 
+/* This use of the offset field works fine -> silence warning */
+#pragma clang diagnostic ignored "-Wcheri-bitwise-operations"
+
 typedef union {
 	void *ptr;
 	__uintcap_t intptr;
