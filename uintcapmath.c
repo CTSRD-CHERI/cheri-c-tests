@@ -33,6 +33,9 @@
 
 #ifndef _TEST_INT_TYPE
 #define	_TEST_INT_TYPE	__uintcap_t
+/* We are explicitly testing the behaviour of operations on __uintcap_t so
+ * there is no need to warn about surprising behaviour */
+#pragma clang diagnostic ignored "-Wcheri-bitwise-operations"
 #endif
 
 #ifdef _TEST_REAL_INTS
