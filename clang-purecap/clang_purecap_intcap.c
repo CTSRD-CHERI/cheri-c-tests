@@ -31,6 +31,7 @@
 
 volatile __intcap_t tmp;
 volatile __intcap_t one = 1;
+volatile __intcap_t two = 2;
 
 BEGIN_TEST(intcap)
 	char str[] = "0123456789";
@@ -55,5 +56,29 @@ BEGIN_TEST(intcap)
 	assert_eq(__builtin_cheri_offset_get((void*)foo), 5);
 	// Valid capabilities are strictly ordered after invalid ones
 	assert(0xffffffffffffffffULL < foo);
-	assert_eq(one, 1);
+	assert_eq_cap((void*)one, (void*)(__intcap_t)1);
+	// When casted to an int it should always be one
+	assert_eq((__uint64_t)one, (__uint64_t)1);
+	// Also check the raw bytes to debug emulator issues:
+	volatile __uint64_t* one_bytes = (__uint64_t*)&one;
+	// First 64 bits: compressed bounds in 128 / permissions in 256 -> zero
+	assert_eq(one_bytes[0], 0);
+	// Next 64 bits: cursor in all implementations
+	assert_eq(one_bytes[1], 1);
+	if (sizeof(__intcap_t) > 16) {
+		// Remaining bytes should be zero
+		assert_eq(one_bytes[2], 0);
+		assert_eq(one_bytes[3], 0);
+	}
+
+	// Check that storing a capability always yields the same value back
+	__intcap_t tmp2 = two;
+	assert_eq_cap((void*)tmp2, (void*)(__intcap_t)2);
+	assert_eq((__uint64_t)tmp2, 2);
+	two = 3; // change the value
+	assert_eq_cap((void*)two, (void*)(__intcap_t)3);
+	assert_eq((__uint64_t)two, 3);
+	two = tmp2; // restore old value
+	assert_eq_cap((void*)two, (void*)(__intcap_t)2);
+	assert_eq((__uint64_t)two, 2);
 END_TEST
