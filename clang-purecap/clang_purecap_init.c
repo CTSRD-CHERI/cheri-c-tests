@@ -64,15 +64,15 @@ BEGIN_TEST(init)
 	assert_eq(__builtin_cheri_length_get((void*)bar), sizeof(foo));
 	assert_eq_cap((void*)bar, &foo);
 	// Check that the two function pointers point to the correct place.
-	assert_eq_cap(f, test_fn_ptr);
-	assert_eq_cap(x.f, test_fn_ptr);
+	assert_eq_cap((void*)f, (void*)test_fn_ptr);
+	assert_eq_cap((void*)x.f, (void*)test_fn_ptr);
 	// Pointers to functions should be executable capabilities
-	ASSERT_HAS_PERMISSION(f, EXECUTE);
+	ASSERT_HAS_PERMISSION((void*)f, EXECUTE);
 	void *pcc = __builtin_cheri_program_counter_get();
 	// Pointers to functions should be pcc with the offset set to the address
 	// of the function.
-	assert_eq(__builtin_cheri_length_get(pcc), __builtin_cheri_length_get(f));
-	assert_eq(__builtin_cheri_base_get(pcc), __builtin_cheri_base_get(f));
+	assert_eq(__builtin_cheri_length_get(pcc), __builtin_cheri_length_get((void*)f));
+	assert_eq(__builtin_cheri_base_get(pcc), __builtin_cheri_base_get((void*)f));
 	// That's all good in theory - now check that we can actually call the
 	// functions!
 	x.f();
