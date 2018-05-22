@@ -61,7 +61,7 @@ static int compare1(const void *a, const void *b)
 	return strcmp(k1->value, k2->value);
 }
 
-BEGIN_TEST(qsort)
+BEGIN_TEST(libc_qsort)
 	for (unsigned int i=0 ; i<(sizeof(array)/sizeof(array[0])) ; i++)
 	{
 		assert_eq(__builtin_cheri_tag_get(array[i]), 1);

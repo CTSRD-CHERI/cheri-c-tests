@@ -52,6 +52,6 @@ static void __attribute__((noinline)) testfn(void)
 	foo();
 }
 
-BEGIN_TEST(capretaddr)
+BEGIN_TEST(clang_purecap_capretaddr)
 	testfn();
 END_TEST

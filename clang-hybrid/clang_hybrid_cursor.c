@@ -50,7 +50,7 @@ void get(int* __capability x)
 	}
 }
 
-BEGIN_TEST(clang_cursor)
+BEGIN_TEST(clang_hybrid_cursor)
 	// Explicitly set the size of the capability
 	int * __capability b =
 		__builtin_cheri_bounds_set((__cheri_tocap int * __capability)&buffer[0],
@@ -73,8 +73,10 @@ BEGIN_TEST(clang_cursor)
 	assert(41*sizeof(int) == __builtin_cheri_offset_get(b));
 
 	// Check that the pointer version of the capability is what we'd expect
+#ifndef __CHERI_PURE_CAPABILITY__
 	DEBUG_DUMP_REG(18, (__cheri_fromcap int*)b);
 	DEBUG_DUMP_REG(19, &buffer);
+#endif
 	assert(((__cheri_fromcap int*)b) == &buffer[41]);
 
 	// Check that we can read all of the array back by reverse iteration

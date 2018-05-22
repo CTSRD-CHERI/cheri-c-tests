@@ -45,6 +45,6 @@ static void printstuff(char *fmt, ...)
 	va_end(ap);
 }
 
-BEGIN_TEST(va_copy)
+BEGIN_TEST(clang_purecap_va_copy)
 	printstuff("%d\n", 1,2,3,4,5,6,7,8);
 END_TEST

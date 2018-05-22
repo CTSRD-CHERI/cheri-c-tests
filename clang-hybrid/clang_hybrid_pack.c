@@ -69,7 +69,7 @@ void check_struct()
   assert(x.c == 0x05);
 }
 
-BEGIN_TEST(clang_pack)
+BEGIN_TEST(clang_hybrid_pack)
 int i;
 char *cp;
 

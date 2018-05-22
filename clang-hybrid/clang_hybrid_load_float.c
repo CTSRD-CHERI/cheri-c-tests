@@ -62,7 +62,7 @@ static float array[4] = {
     4.0
 };
 
-int test_body(void)
+static __attribute__((noinline)) int test_body(void)
 {
 int i;
 float total;
@@ -81,7 +81,7 @@ float * __capability fp;
     return 0;
 }
 
-BEGIN_TEST(clang_load_float)
+BEGIN_TEST(clang_hybrid_load_float)
 
   config1 = get_config_reg();
   if (config1 & 0x1)

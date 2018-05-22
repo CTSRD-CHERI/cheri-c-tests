@@ -48,7 +48,7 @@ struct example *__capability example_constructor(void)
   return result;
 }
 
-BEGIN_TEST(clang_struct)
+BEGIN_TEST(clang_hybrid_struct)
   struct example *__capability e;
 
   e = example_constructor();

@@ -44,7 +44,7 @@ static int foo(__input int* x)
 	return y;
 }
 
-BEGIN_TEST(input)
+BEGIN_TEST(clang_purecap_input)
 	int x = 47;
 	int y = foo(&x);
 	// Check that the store failed.

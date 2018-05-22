@@ -30,7 +30,7 @@
 #include <string.h>
 #include "cheri_c_test.h"
 
-BEGIN_TEST(string)
+BEGIN_TEST(libc_string)
 	char str[] = "123456789";
 	char str2[] = "123456789";
 	char str3[sizeof(str2)];

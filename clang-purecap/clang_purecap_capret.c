@@ -53,6 +53,6 @@ __asm__(
 #error This test checks that return addresses are capabilities.
 #endif
 
-BEGIN_TEST(capret)
+BEGIN_TEST(clang_purecap_capret)
 	_capret_foo();
 END_TEST

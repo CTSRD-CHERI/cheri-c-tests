@@ -29,7 +29,7 @@
 
 static char data[] = {1, 2, 3, 4, 5, 6, 7, 8};
 
-BEGIN_TEST(clang_cast)
+BEGIN_TEST(clang_hybrid_cast)
   // FIXME: __cheri_cast doesn't allow array-to-pointer decay :(
   char * __capability datacp = (__cheri_tocap char * __capability)&data[0];
 

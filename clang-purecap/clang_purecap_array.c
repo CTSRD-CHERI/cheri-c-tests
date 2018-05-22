@@ -36,7 +36,7 @@ static void handler(void *capreg, int cause)
 	faults++;
 }
 
-BEGIN_TEST(array)
+BEGIN_TEST(clang_purecap_array)
 	test_fault_handler = handler;
 	int count = 8;
 	char buffer[count];

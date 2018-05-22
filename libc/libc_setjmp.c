@@ -54,7 +54,7 @@ void dosetjump(void)
 	assert_eq(position, 4);
 }
 
-BEGIN_TEST(setjmp)
+BEGIN_TEST(libc_setjmp)
 	assert_eq(position, 0);
 	position++;
 	dosetjump();

@@ -82,7 +82,7 @@ double *__capability dp;
     return 0;
 }
 
-BEGIN_TEST(clang_load_double)
+BEGIN_TEST(clang_hybrid_load_double)
 
   config1 = get_config_reg();
   if (config1 & 0x1)

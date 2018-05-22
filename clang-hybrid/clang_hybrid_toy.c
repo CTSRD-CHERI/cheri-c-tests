@@ -32,7 +32,7 @@ static int anotherTest(int spare)
 	return 53;
 }
 
-BEGIN_TEST(clang_toy)
+BEGIN_TEST(clang_hybrid_toy)
 	int a = 42;
 	a += anotherTest(a);
 	assert(a == 42+53);

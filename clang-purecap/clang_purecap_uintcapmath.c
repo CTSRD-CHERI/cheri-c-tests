@@ -38,15 +38,15 @@
 
 #ifdef _TEST_REAL_INTS
 #ifdef _TEST_SIGNED
-BEGIN_TEST(int64math)
+BEGIN_TEST(clang_purecap_int64math)
 #else
-BEGIN_TEST(uint64math)
+BEGIN_TEST(clang_purecap_uint64math)
 #endif
 #else
 #ifdef _TEST_SIGNED
-BEGIN_TEST(intcapmath)
+BEGIN_TEST(clang_purecap_intcapmath)
 #else
-BEGIN_TEST(uintcapmath)
+BEGIN_TEST(clang_purecap_uintcapmath)
 #endif
 /* We are explicitly testing the behaviour of operations on __(u)intcap_t so
  * there is no need to warn about surprising behaviour */

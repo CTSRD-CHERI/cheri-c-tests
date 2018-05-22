@@ -43,7 +43,7 @@ void is_null(void *p)
 
 #pragma clang diagnostic ignored "-Wcheri-capability-misuse"
 
-BEGIN_TEST(null)
+BEGIN_TEST(clang_purecap_null)
 	void *p = 0;
 	is_null(p);
 	p = (void*)zero;

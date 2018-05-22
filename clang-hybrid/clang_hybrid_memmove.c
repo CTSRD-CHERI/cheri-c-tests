@@ -76,7 +76,7 @@ void invalidate(struct Test *t1)
 }
 
 // Run the memcpy tests
-BEGIN_TEST(clang_memmove)
+BEGIN_TEST(clang_hybrid_memmove)
 	struct Test t1, t2;
 
 	invalidate(&t2);
@@ -160,5 +160,4 @@ BEGIN_TEST(clang_memmove)
 	/*
 	*/
 	assert(faults == 0);
-	return 0;
 END_TEST

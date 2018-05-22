@@ -33,7 +33,7 @@ volatile __intcap_t tmp;
 volatile __intcap_t one = 1;
 volatile __intcap_t two = 2;
 
-BEGIN_TEST(intcap)
+BEGIN_TEST(clang_purecap_intcap)
 	char str[] = "0123456789";
 	__intcap_t foo = 42;
 	assert_eq(__builtin_cheri_tag_get((void*)foo), 0);

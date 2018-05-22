@@ -92,7 +92,7 @@ static void printstuff(int num_args, ...)
 	__builtin_memset(&pi->vap, 0, sizeof(pi->vap));
 }
 
-BEGIN_TEST(va_copy)
+BEGIN_TEST(clang_purecap_va_list_global)
 	// THere are only two args so it should die after the second one
 	printstuff(3, "arg1", "arg2");
 END_TEST

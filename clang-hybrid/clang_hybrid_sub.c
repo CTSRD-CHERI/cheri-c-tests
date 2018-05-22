@@ -36,7 +36,7 @@
 
 static const char *str = "0123456789ABCDEF";
 
-BEGIN_TEST(clang_sub)
+BEGIN_TEST(clang_hybrid_sub)
 
 	const char * __capability a;
 	const char * __capability b;

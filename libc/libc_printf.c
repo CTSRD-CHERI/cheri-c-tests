@@ -30,7 +30,7 @@
 #include <stdio.h>
 #include "cheri_c_test.h"
 
-BEGIN_TEST(printf)
+BEGIN_TEST(libc_printf)
 	char expected[] = "hello world";
 	char out[sizeof(expected)+8];
 	int len = sprintf(out, "hello %s", "world");

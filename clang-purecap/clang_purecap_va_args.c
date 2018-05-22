@@ -101,7 +101,7 @@ static void check_fp(int intarg, ...)
 	va_end(ap);
 }
 
-BEGIN_TEST(va_args)
+BEGIN_TEST(clang_purecap_va_args)
 	printstuff(8, 0,ptrs[0],1,ptrs[1],2,ptrs[2],3,ptrs[3],4,ptrs[4],5,ptrs[5],6,ptrs[6],7,ptrs[7]);
 	check_fp(3, &inc);
 	assert_eq(faults, 0);

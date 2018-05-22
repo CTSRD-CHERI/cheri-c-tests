@@ -52,7 +52,7 @@
 #define NAME u64
 #include "load_test.h"
 
-BEGIN_TEST(clang_load_data)
+BEGIN_TEST(clang_hybrid_load_data)
 	u8_test();
 	i8_test();
 	u16_test();

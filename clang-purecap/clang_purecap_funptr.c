@@ -38,7 +38,7 @@ static const char * retsrt(void) {
         return str;
 }
 
-BEGIN_TEST(funptr)
+BEGIN_TEST(clang_purecap_funptr)
 #ifdef INCLUDE_XFAIL
 	assert_eq(sizeof(&retsrt), sizeof(void *));
 #endif

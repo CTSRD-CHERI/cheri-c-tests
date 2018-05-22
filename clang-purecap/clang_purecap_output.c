@@ -45,7 +45,7 @@ static int  __attribute__((noinline)) foo(__output int* x)
 	return y;
 }
 
-BEGIN_TEST(output)
+BEGIN_TEST(clang_purecap_output)
 	int x = 47;
 	foo(&x);
 	// Check that the store succeeded

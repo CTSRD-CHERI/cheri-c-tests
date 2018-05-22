@@ -43,7 +43,7 @@ foo_byval(struct foo f)
 	memset(f.data, 42, sizeof(f.data));
 }
 
-BEGIN_TEST(byval_args)
+BEGIN_TEST(clang_purecap_byval_args)
 	/* Check that structs passed by value are actually copied */
 	memset(global_foo.data, 0, sizeof(global_foo.data));
 	assert_eq(global_foo.data[0], 0);

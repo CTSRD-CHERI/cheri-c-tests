@@ -48,5 +48,4 @@ BEGIN_TEST(clang_hybrid_intcap)
 	cp = (char * __capability) x;
 	assert(*cp == '1');
 	assert(faults == 0);
-	return 0;
 END_TEST

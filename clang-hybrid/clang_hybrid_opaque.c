@@ -68,7 +68,7 @@ void example_init(void)
   example_key = __builtin_cheri_offset_set(sealing_cap, 4);
 }
 
-example_t example_constructor(void)
+static __attribute__((noinline)) example_t example_constructor(void)
 {
   struct example *ptr;
   example_t result;
@@ -91,7 +91,7 @@ example_t p;
   return p->x;
 }
 
-BEGIN_TEST(clang_opaque)
+BEGIN_TEST(clang_hybrid_opaque)
 example_t e;
 int r;
 

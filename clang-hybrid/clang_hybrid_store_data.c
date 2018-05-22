@@ -28,39 +28,39 @@
 #include "cheri_c_test.h"
 
 #define TYPE signed char
-#define NAME i8
+#define NAME hybrid_i8
 #include "store_test.h"
 #define TYPE unsigned char
-#define NAME u8
+#define NAME hybrid_u8
 #include "store_test.h"
 #define TYPE signed short
-#define NAME i16
+#define NAME hybrid_i16
 #include "store_test.h"
 #define TYPE unsigned short
-#define NAME u16
+#define NAME hybrid_u16
 #include "store_test.h"
 #define TYPE signed int
-#define NAME i32
+#define NAME hybrid_i32
 #include "store_test.h"
 #define TYPE unsigned int
-#define NAME u32
+#define NAME hybrid_u32
 #include "store_test.h"
 #define TYPE signed long long
-#define NAME i64
+#define NAME hybrid_i64
 #include "store_test.h"
 #define TYPE unsigned long long
-#define NAME u64
+#define NAME hybrid_u64
 #include "store_test.h"
 
-BEGIN_TEST(clang_store_data)
-	u8_test();
-	i8_test();
-	u16_test();
-	i16_test();
-	u32_test();
-	i32_test();
-	u64_test();
-	i64_test();
+BEGIN_TEST(clang_hybrid_store_data)
+	hybrid_u8_test();
+	hybrid_i8_test();
+	hybrid_u16_test();
+	hybrid_i16_test();
+	hybrid_u32_test();
+	hybrid_i32_test();
+	hybrid_u64_test();
+	hybrid_i64_test();
 
 	assert(faults == 0);
 END_TEST

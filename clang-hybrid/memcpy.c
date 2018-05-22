@@ -39,7 +39,9 @@ __FBSDID("$FreeBSD$");
 #include <sys/types.h>
 #include <stdint.h>
 #else
+#ifndef _VADDR_T_DECLARED
 typedef long vaddr_t;
+#endif
 #endif
 /*
  * sizeof(word) MUST BE A POWER OF TWO

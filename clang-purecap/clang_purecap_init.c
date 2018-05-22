@@ -49,7 +49,7 @@ struct f
 
 fn f = test_fn_ptr;
 
-BEGIN_TEST(init)
+BEGIN_TEST(clang_purecap_init)
 	// Check that the initialisation of a pointer to a global worked:
 	assert_eq(bar[0], '0');
 	assert_eq(bar[1], '1');

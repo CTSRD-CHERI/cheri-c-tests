@@ -62,7 +62,7 @@ struct Test
 // Check that the copy has the data that we expect it to contain.  The start
 // and end parameters describe the range in the padding to check.  For partial
 // copies, the uncopied range will contain nonsense.
-void check(struct Test *t, int start, int end)
+static void check(struct Test *t, int start, int end)
 {
 	for (int i=start ; i<32 ; i++)
 	{
@@ -77,7 +77,7 @@ void check(struct Test *t, int start, int end)
 }
 
 // Write an obviously invalid byte pattern over the output structure.
-void invalidate(struct Test *t1)
+static void invalidate(struct Test *t1)
 {
 	unsigned char *x = (unsigned char*)t1;
 	for (int i=0 ; i<sizeof(*t1) ; i++)
@@ -87,7 +87,7 @@ void invalidate(struct Test *t1)
 }
 
 // Run the memcpy tests
-BEGIN_TEST(clang_memcpy)
+BEGIN_TEST(clang_hybrid_memcpy)
 	struct Test t1, t2;
 
 	invalidate(&t2);

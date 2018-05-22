@@ -55,7 +55,7 @@ void *get_pointer(PtrIntPair p)
 	return (void*)(p.intptr & (__uintcap_t)~7LL);
 }
 
-BEGIN_TEST(smallint)
+BEGIN_TEST(clang_purecap_smallint)
 	char str[] = "123456789";
 	PtrIntPair p;
 	p.ptr = str;

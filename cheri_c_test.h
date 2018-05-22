@@ -90,7 +90,7 @@ void test_setup(void);
 	__asm__ volatile ("nop")
 
 #ifndef DEBUG_MSG
-#define DEBUG_MSG(str) puts(str)
+#define DEBUG_MSG(str)
 #endif
 
 #define TO_CAP(x) ((__cheri_tocap void * __capability)(void*)(x))

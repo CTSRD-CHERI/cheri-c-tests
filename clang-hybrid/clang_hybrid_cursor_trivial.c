@@ -28,7 +28,7 @@
 
 int buffer[42];
 
-BEGIN_TEST(clang_cursor_trivial)
+BEGIN_TEST(clang_hybrid_cursor_trivial)
 	int * __capability b = (__cheri_tocap int * __capability)&buffer[0];
 	long long count = faults;
 	b[41] = 12;
@@ -58,5 +58,4 @@ BEGIN_TEST(clang_cursor_trivial)
 	assert(*v == 12);
 
 	assert(faults == 2);
-	return 0;
-}
+END_TEST
