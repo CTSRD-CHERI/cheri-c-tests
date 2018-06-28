@@ -41,7 +41,7 @@ static void __attribute__((noinline)) foo(void)
 	assert(__builtin_cheri_offset_get(ret) > __builtin_cheri_offset_get(testfn));
 	// Approximate, but main really shouldn't need to be more than 100
 	// instruction in any vaguely sane implementation.
-	assert(__builtin_cheri_offset_get(ret) - __builtin_cheri_offset_get(testfn) < 100);
+	assert(__builtin_cheri_offset_get(ret) - __builtin_cheri_offset_get(testfn) < 100 * 4);
 	// We shouldn't be able to write through code capabilities
 	XFAIL((__builtin_cheri_perms_get(ret) & __CHERI_CAP_PERMISSION_PERMIT_STORE_CAPABILITY__) == 0);
 	XFAIL((__builtin_cheri_perms_get(ret) & __CHERI_CAP_PERMISSION_PERMIT_STORE__) == 0);
