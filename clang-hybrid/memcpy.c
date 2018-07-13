@@ -39,8 +39,8 @@ __FBSDID("$FreeBSD$");
 #include <sys/types.h>
 #include <stdint.h>
 #else
-#ifndef _VADDR_T_DECLARED
-typedef long vaddr_t;
+typedef __attribute((memory_address)) __UINT64_TYPE__ vaddr_t;
+#define _VADDR_T_DECLARED
 #endif
 #endif
 /*
