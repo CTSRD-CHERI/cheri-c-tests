@@ -29,15 +29,22 @@
  */
 #include "cheri_c_test.h"
 
+#ifndef NULL
+#define NULL ((void*)0)
+#endif
+
+
 _Atomic(char) c;
 _Atomic(short) h;
 _Atomic(int) w;
 _Atomic(long long) d;
+_Atomic(int*) p = NULL;
 
 _Atomic(char) *cp = &c;
 _Atomic(short) *hp = &h;
 _Atomic(int) *wp = &w;
 _Atomic(long long) *dp = &d;
+_Atomic(int*) *pp = &p;
 
 BEGIN_TEST(clang_purecap_atomic)
 	assert_eq(__builtin_cheri_length_get(cp), sizeof(c));
@@ -56,5 +63,27 @@ BEGIN_TEST(clang_purecap_atomic)
 	assert_eq(h, 2);
 	assert_eq(w, 2);
 	assert_eq(d, 2);
+
+	// Test operations on pointers:
+	assert_eq(__builtin_cheri_length_get(pp), sizeof(p));
+	int newval;
+	assert_eq_cap(p, NULL);
+#if 0
+	void* old_value = __c11_atomic_fetch_add(&p, 1, __ATOMIC_SEQ_CST);
+	assert_eq_cap(old_value, NULL);
+#else
+	p = (void*)(__uintcap_t)1;
+#endif
+	assert_eq_cap(p, (void*)(__uintcap_t)1);
+	int* expected = (int*)(__uintcap_t)1;
+	assert(__c11_atomic_compare_exchange_strong(&p, &expected, (void*)&newval, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST));
+	assert_eq_cap(p, &newval);
+	int* xchg_value = __c11_atomic_exchange(&p, (void*)(__uintcap_t)2, __ATOMIC_SEQ_CST);
+	assert_eq_cap(xchg_value, (void*)&newval);
+	assert_eq_cap(p, (void*)(__uintcap_t)2);
+	__c11_atomic_store(&p, (void*)(__uintcap_t)3, __ATOMIC_SEQ_CST);
+	assert_eq_cap(p, (void*)(__uintcap_t)3);
+
+
 END_TEST
 
