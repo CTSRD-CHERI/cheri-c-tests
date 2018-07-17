@@ -24,6 +24,7 @@
  *
  * @BERI_LICENSE_HEADER_END@
  */
+#define TEST_EXPECTED_FAULTS 2
 #include "cheri_c_test.h"
 
 int buffer[42];
