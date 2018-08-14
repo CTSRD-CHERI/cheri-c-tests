@@ -10,7 +10,7 @@ union CallData {
 
 __attribute__((noinline)) void f(union CallData foo) {
   char *d = foo.Bar.c;
-  char *e = foo.Bar.c;
+  char *e = foo.Bar.c2;
   int j = foo.Bar.i;
   assert_eq(d[0], 'h');
   assert_eq(e[0], 'w');
