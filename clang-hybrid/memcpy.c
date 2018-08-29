@@ -146,13 +146,13 @@ bcopy(const void *src0, void *dst0, size_t length)
 		/*
 		 * Copy forward.
 		 */
-		t = (vaddr_t)src;	/* only need low bits */
-		if ((t | (vaddr_t)dst) & wmask) { 
+		t = (__cheri_addr vaddr_t)src;	/* only need low bits */
+		if ((t | (__cheri_addr vaddr_t)dst) & wmask) {
 			/*
 			 * Try to align operands.  This cannot be done
 			 * unless the low bits match.
 			 */
-			if ((t ^ (vaddr_t)dst) & wmask || length < wsize)
+			if ((t ^ (__cheri_addr vaddr_t)dst) & wmask || length < wsize)
 				t = length;
 			else
 				t = wsize - (t & wmask);
@@ -166,13 +166,13 @@ bcopy(const void *src0, void *dst0, size_t length)
 		 * If pointers are bigger than words, try to copy by words.
 		 */
 		if (bigptr) {
-			t = (vaddr_t)src;	/* only need low bits */
-			if ((t | (vaddr_t)dst) & pmask) {
+			t = (__cheri_addr vaddr_t)src;	/* only need low bits */
+			if ((t | (__cheri_addr vaddr_t)dst) & pmask) {
 				/*
 				 * Try to align operands.  This cannot be done
 				 * unless the low bits match.
 				 */
-				if ((t ^ (vaddr_t)dst) & pmask || length < psize)
+				if ((t ^ (__cheri_addr vaddr_t)dst) & pmask || length < psize)
 					t = length / wsize;
 				else
 					t = (psize - (t & pmask)) / wsize;
@@ -219,9 +219,9 @@ bcopy(const void *src0, void *dst0, size_t length)
 		 */
 		src += length;
 		dst += length;
-		t = (vaddr_t)src;
-		if ((t | (vaddr_t)dst) & wmask) {
-			if ((t ^ (vaddr_t)dst) & wmask || length <= wsize)
+		t = (__cheri_addr vaddr_t)src;
+		if ((t | (__cheri_addr vaddr_t)dst) & wmask) {
+			if ((t ^ (__cheri_addr vaddr_t)dst) & wmask || length <= wsize)
 				t = length;
 			else
 				t &= wmask;
@@ -232,9 +232,9 @@ bcopy(const void *src0, void *dst0, size_t length)
 			MIPSLOOP(t, 0, dst[t]=src[t];, -1);
 		}
 		if (bigptr) {
-			t = (vaddr_t)src;	/* only need low bits */
-			if ((t | (vaddr_t)dst) & pmask) {
-				if ((t ^ (vaddr_t)dst) & pmask || length < psize)
+			t = (__cheri_addr vaddr_t)src;	/* only need low bits */
+			if ((t | (__cheri_addr vaddr_t)dst) & pmask) {
+				if ((t ^ (__cheri_addr vaddr_t)dst) & pmask || length < psize)
 					t = length / wsize;
 				else
 					t = (t & pmask) / wsize;
