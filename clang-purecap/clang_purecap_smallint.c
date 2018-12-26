@@ -56,9 +56,10 @@ void *get_pointer(PtrIntPair p)
 }
 
 BEGIN_TEST(clang_purecap_smallint)
-	char str[] = "123456789";
+	_Alignas(8) char str[] = "123456789";
 	PtrIntPair p;
 	p.ptr = str;
+	assert_eq(__builtin_cheri_address_get(p.ptr) & 7, 0); // must be aligned
 	p = set_int(p, 4);
 	assert_eq(get_int(p), 4);
 	char *ptr = get_pointer(p);
