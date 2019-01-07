@@ -82,6 +82,22 @@ void test_setup(void);
 #define ASSERT_HAS_NOT_PERMISSION(x, perm) \
 	assert_eq((__builtin_cheri_perms_get(x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __), 0)
 
+#ifndef __DECONST
+#define __DECONST(type, var)	((type)(uintptr_t)(const void *)(var))
+#endif
+
+#ifndef __DEVOLATILE
+#define __DEVOLATILE(type, var)	((type)(uintptr_t)(volatile void *)(var))
+#endif
+
+#ifndef __DEQUALIFY
+#define __DEQUALIFY(type, var)	((type)(uintptr_t)(const volatile void *)(var))
+#endif
+
+#ifndef __noinline
+#define __noinline __attribute__((noinline))
+#endif
+
 // Dumps a value into a specified register.  Useful for debugging test cases.
 #define DEBUG_DUMP_REG(regno, val) \
 	__asm__ volatile ("dadd $" #regno ", %0, $0" : : "r" (val) : #regno);
