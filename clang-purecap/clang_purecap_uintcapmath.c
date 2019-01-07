@@ -146,9 +146,9 @@ BEGIN_TEST(clang_purecap_uintcapmath)
 #if defined(INCLUDE_XFAIL) || defined(_TEST_REAL_INTS)
 	/* Fails to build and takes many minutes to do so for __uintcap_t. */
 	target = ~zero;
-	assert_eq(target, 0xffffffffffffffffULL);
+	assert_eq((uint64_t)target, 0xffffffffffffffffULL);
 	target = ~(2-one);
-	assert_eq(target, 0xfffffffffffffffeULL);
+	assert_eq((uint64_t)target, 0xfffffffffffffffeULL);
 #endif
 
 	target = one & (_TEST_INT_TYPE)1;

@@ -26,7 +26,9 @@
  */
 #include "cheri_c_test.h"
 
-typedef __SIZE_TYPE__ size_t;                    
+#ifndef _SIZE_T_DECLARED
+typedef __SIZE_TYPE__ size_t;
+#endif
 
 void * cmemmove(void *dst0,
                const void *src0,
@@ -51,6 +53,7 @@ struct Test
 // Check that the copy has the data that we expect it to contain.  The start
 // and end parameters describe the range in the padding to check.  For partial
 // copies, the uncopied range will contain nonsense.
+extern __attribute__((noinline)) void check(struct Test *t, int start, int end);
 __attribute__((noinline)) void check(struct Test *t, int start, int end)
 {
 	for (int i=start ; i<32 ; i++)
@@ -69,7 +72,7 @@ __attribute__((noinline)) void check(struct Test *t, int start, int end)
 void invalidate(struct Test *t1)
 {
 	unsigned char *x = (unsigned char*)t1;
-	for (int i=0 ; i<sizeof(*t1) ; i++)
+	for (unsigned i=0 ; i<sizeof(*t1) ; i++)
 	{
 		*x = 0xa5;
 	}

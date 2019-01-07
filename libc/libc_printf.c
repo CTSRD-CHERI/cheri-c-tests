@@ -35,7 +35,7 @@ BEGIN_TEST(libc_printf)
 	char out[sizeof(expected)+8];
 	int len = sprintf(out, "hello %s", "world");
 	assert_eq(len, sizeof(expected)-1);
-	for (int i=0 ; i<sizeof(expected) ; i++)
+	for (unsigned i=0 ; i<sizeof(expected) ; i++)
 	{
 		assert_eq(expected[i], out[i]);
 	}

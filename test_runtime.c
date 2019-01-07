@@ -41,7 +41,7 @@
 
 static const size_t cap_size = sizeof(void*);
 
-static void handler(void * __capability capreg, int cause)
+static void handler(void * __capability capreg __unused, int cause __unused)
 {
 	faults++;
 }
@@ -165,7 +165,7 @@ getCapRegAtIndex(mcontext_t *context, int idx)
 }
 
 static inline uint32_t *
-getAdjustedPc(mcontext_t *context, register_t pc)
+getAdjustedPc(mcontext_t *context, u_register_t pc)
 {
 	uint64_t base = __builtin_cheri_base_get(getCHERIFrame(context)->cf_pcc);
 	uintptr_t pcc = (uintptr_t)getCHERIFrame(context)->cf_pcc;
@@ -353,7 +353,7 @@ emulateBranch(mcontext_t *context, register_t pc)
  * instruction.
  */
 static void
-capsighandler(int signo, siginfo_t *info, ucontext_t *uap)
+capsighandler(int signo, siginfo_t *info __unused, ucontext_t *uap)
 {
 	mcontext_t *context = &uap->uc_mcontext;
 	bool isDelaySlot = isInDelaySlot(context);

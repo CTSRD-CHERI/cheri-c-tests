@@ -28,13 +28,13 @@
  * SUCH DAMAGE.
  */
 #include "cheri_c_test.h"
-
+extern const unsigned int sizes[];
 const unsigned int sizes[] = {
 	131072, 262144, 1048576
 };
 volatile void* ptrs[3];
 
-void check_overlap(void *a, void*b)
+__noinline static void check_overlap(void *a, void*b)
 {
 	unsigned long long basea = __builtin_cheri_base_get(a);
 	unsigned long long baseb = __builtin_cheri_base_get(b);
@@ -43,11 +43,11 @@ void check_overlap(void *a, void*b)
 	assert((basea >= topb) || (baseb >= topa));
 }
 
-void check_sizes(void)
+__noinline static void check_sizes(void)
 {
 	for (unsigned int i=0 ; i<sizeof(sizes)/sizeof(sizes[0]) ; i++)
 	{
-		assert(__builtin_cheri_length_get((void*)ptrs[i]) >= sizes[i]);
+		assert(__builtin_cheri_length_get(__DEVOLATILE(void*, ptrs[i])) >= sizes[i]);
 	}
 }
 

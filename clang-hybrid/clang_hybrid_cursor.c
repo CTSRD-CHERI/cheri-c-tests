@@ -30,10 +30,11 @@
  * @BERI_LICENSE_HEADER_END@
  */
 #include "cheri_c_test.h"
+extern int buffer[42];
 int buffer[42];
 
 __attribute__((noinline))
-void set(int* __capability x)
+static void set(int* __capability x)
 {
 	for (int i=0 ; i<42 ; i++)
 	{
@@ -42,7 +43,7 @@ void set(int* __capability x)
 }
 
 __attribute__((noinline))
-void get(int* __capability x)
+static void get(int* __capability x)
 {
 	for (int i=41 ; i>=0 ; i--,x--)
 	{
@@ -57,7 +58,7 @@ BEGIN_TEST(clang_hybrid_cursor)
 		42*sizeof(int));
 
 	// Check that the base is correctly set to the start of the array
-	assert((long long)buffer == __builtin_cheri_base_get(b));
+	assert((vaddr_t)buffer == __builtin_cheri_base_get(b));
 
 	// Check that the offset is correctly set to the start of the array
 	assert(0 == __builtin_cheri_offset_get(b));

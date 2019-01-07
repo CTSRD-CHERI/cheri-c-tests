@@ -33,6 +33,7 @@
 #define NULL ((void*)0)
 #endif
 
+#pragma clang diagnostic ignored "-Wmissing-variable-declarations"
 
 _Atomic(char) c;
 _Atomic(short) h;

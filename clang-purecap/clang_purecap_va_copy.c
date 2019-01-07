@@ -30,7 +30,7 @@
 #include <stdarg.h>
 #include "cheri_c_test.h"
 
-static void printstuff(char *fmt, ...)
+static void printstuff(const char *fmt, ...)
 {
 	va_list ap, ap2;
 	va_start(ap, fmt);
@@ -40,7 +40,7 @@ static void printstuff(char *fmt, ...)
 	{
 		int x = va_arg(ap, int);
 		int y = va_arg(ap2, int);
-		assert_eq(y, y);
+		assert_eq(x, y);
 	}
 	va_end(ap);
 }

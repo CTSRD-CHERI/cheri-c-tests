@@ -37,6 +37,7 @@ struct example {
 
 static struct example example_object = {0};
 
+extern struct example *__capability example_constructor(void);
 struct example *__capability example_constructor(void)
 {
   struct example *ptr;

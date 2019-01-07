@@ -42,7 +42,7 @@ struct packed_s {
 
 static volatile struct packed_s x;
 
-void check_struct()
+__attribute__((noinline)) static void check_struct()
 {
 /*
  * This test has been disabled by ifdef'ing out the assertions.
@@ -70,8 +70,6 @@ void check_struct()
 }
 
 BEGIN_TEST(clang_hybrid_pack)
-int i;
-char *cp;
 
   x.a = 0x00;
   x.c = 0x05;

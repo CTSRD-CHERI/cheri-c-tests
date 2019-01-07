@@ -37,7 +37,7 @@ BEGIN_TEST(clang_purecap_capcmp)
 	char *end = &str[sizeof(str)];
 	// Pointer to one-past-the-end should work
 	assert_eq(__builtin_cheri_offset_get(end), __builtin_cheri_length_get(end));
-	for (int i=1 ; i<sizeof(str) ; i++)
+	for (unsigned i=1 ; i<sizeof(str) ; i++)
 	{
 		char *ptr = &str[i];
 		// Derived capabilities should not change the bounds unless explicitly requested

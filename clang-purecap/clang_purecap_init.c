@@ -29,6 +29,8 @@
  */
 #include "cheri_c_test.h"
 
+#pragma clang diagnostic ignored "-Wmissing-variable-declarations"
+
 char foo[] = "01234";
 // Check for initialisation of global pointers
 volatile char *bar = (volatile char*)&foo;
@@ -58,11 +60,11 @@ BEGIN_TEST(clang_purecap_init)
 	assert_eq(bar[4], '4');
 	assert_eq(bar[5], 0);
 	// Pointers to globals should not be executable capabilities
-	ASSERT_HAS_NOT_PERMISSION(bar, EXECUTE);
+	ASSERT_HAS_NOT_PERMISSION(__DEVOLATILE(char*, bar), EXECUTE);
 	// At least for small allocations, this pointer should be exactly the size
 	// of the global.
-	assert_eq(__builtin_cheri_length_get((void*)bar), sizeof(foo));
-	assert_eq_cap((void*)bar, &foo);
+	assert_eq(__builtin_cheri_length_get(__DEVOLATILE(char*, bar)), sizeof(foo));
+	assert_eq_cap(__DEVOLATILE(void*, bar), (void*)&foo);
 	// Check that the two function pointers point to the correct place.
 	assert_eq_cap((void*)f, (void*)test_fn_ptr);
 	assert_eq_cap((void*)x.f, (void*)test_fn_ptr);

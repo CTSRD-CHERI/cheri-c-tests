@@ -33,19 +33,19 @@ static void increment()
 	x++;
 }
 
-static char *digits = "0123456789";
+static const char *digits = "0123456789";
 
 BEGIN_TEST(clang_hybrid_intcap)
-	char *__capability cp;
+	const char *__capability cp;
 
 	x = 1;
 	increment();
 	assert(x == 2);
 
-	cp = (__cheri_tocap char * __capability) digits;
+	cp = (__cheri_tocap const char * __capability) digits;
 	x = (__intcap_t) cp;
 	increment();
-	cp = (char * __capability) x;
+	cp = (const char * __capability) x;
 	assert(*cp == '1');
 	assert(faults == 0);
 END_TEST

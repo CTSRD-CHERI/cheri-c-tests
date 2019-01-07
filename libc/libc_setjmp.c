@@ -33,14 +33,14 @@
 static int position;
 static jmp_buf buf;
 
-void dolongjump(void)
+static void dolongjump(void)
 {
 	assert_eq(position, 3);
 	position++;
 	longjmp(buf, 2);
 }
 
-void dosetjump(void)
+static void dosetjump(void)
 {
 	assert_eq(position, 1);
 	position++;

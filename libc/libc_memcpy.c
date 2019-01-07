@@ -62,7 +62,7 @@ static void check(struct Test *t1, int start, int end)
 static void invalidate(struct Test *t1)
 {
 	unsigned char *x = (unsigned char*)t1;
-	for (int i=0 ; i<sizeof(*t1) ; i++)
+	for (size_t i=0 ; i<sizeof(*t1) ; i++)
 	{
 		*x = 0xa5;
 	}

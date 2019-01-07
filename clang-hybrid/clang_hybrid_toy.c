@@ -29,6 +29,7 @@
 __attribute__((noinline))
 static int anotherTest(int spare)
 {
+	(void)spare;
 	return 53;
 }
 

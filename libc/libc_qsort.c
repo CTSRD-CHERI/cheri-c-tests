@@ -31,11 +31,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-char *array[] = { "c", "d", "b", "a", "f", "e", "g" };
+const char *array[] = { "c", "d", "b", "a", "f", "e", "g" };
 struct dict_entry
 {
 	int key;
-	char *value;
+	const char *value;
 };
 
 struct dict_entry array1[] =
@@ -51,7 +51,7 @@ struct dict_entry array1[] =
 
 static int compare(const void *a, const void *b)
 {
-	return strcmp(*(const char**)a, *(const char**)b);
+	return strcmp(*(const char *const *)a, *(const char *const *)b);
 }
 
 static int compare1(const void *a, const void *b)
@@ -75,8 +75,8 @@ BEGIN_TEST(libc_qsort)
 	{
 		assert_eq(__builtin_cheri_tag_get(array[i]), 1);
 		assert_eq(__builtin_cheri_tag_get(array1[i].value), 1);
-		assert_eq(array[i][0], 'a' +i );
-		assert_eq(array1[i].value[0], 'a' + i);
+		assert_eq(array[i][0], (size_t)('a' + i));
+		assert_eq(array1[i].value[0], (size_t)('a' + i));
 	}
 END_TEST
 

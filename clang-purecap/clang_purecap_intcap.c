@@ -28,7 +28,9 @@
  * SUCH DAMAGE.
  */
 #include "cheri_c_test.h"
-
+extern volatile __intcap_t tmp;
+extern volatile __intcap_t one;
+extern volatile __intcap_t two;
 volatile __intcap_t tmp;
 volatile __intcap_t one = 1;
 volatile __intcap_t two = 2;
@@ -60,7 +62,7 @@ BEGIN_TEST(clang_purecap_intcap)
 	// When casted to an int it should always be one
 	assert_eq((__uint64_t)one, (__uint64_t)1);
 	// Also check the raw bytes to debug emulator issues:
-	volatile __uint64_t* one_bytes = (__uint64_t*)&one;
+	volatile __uint64_t* one_bytes = (volatile __uint64_t*)&one;
 	// First 64 bits: compressed bounds in 128 / permissions in 256 -> zero
 	assert_eq(one_bytes[0], 0);
 	// Next 64 bits: cursor in all implementations

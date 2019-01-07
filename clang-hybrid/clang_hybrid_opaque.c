@@ -37,7 +37,9 @@
 #define SEALED_BOUND_ALIGN (1 << 12)
 #define __seal_align __attribute__((aligned(SEALED_BOUND_ALIGN)))
 
+#ifndef _SIZE_T_DECLARED
 typedef __SIZE_TYPE__ size_t;
+#endif
 
 struct example {
   int x;

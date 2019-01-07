@@ -31,7 +31,7 @@
 #define TEST_EXPECTED_FAULTS 1
 #include "cheri_c_test.h"
 
-static void printstuff(char *fmt, ...)
+static void printstuff(const char *fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);

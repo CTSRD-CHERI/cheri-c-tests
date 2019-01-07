@@ -30,7 +30,7 @@
 #include <stdlib.h>
 #include "cheri_c_test.h"
 
-static void handler(void *capreg, int cause)
+static void handler(void *capreg __unused, int cause)
 {
 	assert_eq(cause, cheri_fault_length);
 	faults++;
@@ -38,14 +38,14 @@ static void handler(void *capreg, int cause)
 
 BEGIN_TEST(clang_purecap_array)
 	test_fault_handler = handler;
-	int count = 8;
-	char buffer[count];
+	size_t count = 8;
+	_Alignas(sizeof(int)) char buffer[count];
 	int *x = (int*)buffer;
 	assert_eq(__builtin_cheri_length_get(x), count);
-	for (int i=0 ; i<count ; i++)
+	for (size_t i=0 ; i<count ; i++)
 	{
 		x[i] = i;
 	}
-	assert_eq(faults, count - (count  / sizeof(int)));
+	assert_eq((size_t)faults, count - (count  / sizeof(int)));
 END_TEST
 

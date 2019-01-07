@@ -34,7 +34,7 @@
 size_t malloc_usable_size(const void *ptr);
 #endif
 
-void check_allocation(void *a, long size)
+void check_allocation(void *a, unsigned long size)
 {
 	assert(__builtin_cheri_tag_get(a));
 	assert(__builtin_cheri_length_get(a) - __builtin_cheri_offset_get(a) >= size);

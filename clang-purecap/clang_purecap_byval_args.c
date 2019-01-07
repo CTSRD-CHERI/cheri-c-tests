@@ -37,7 +37,7 @@ struct foo {
 
 struct foo global_foo;
 
-void
+__attribute__((noinline)) static void
 foo_byval(struct foo f)
 {
 	memset(f.data, 42, sizeof(f.data));

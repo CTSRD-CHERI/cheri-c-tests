@@ -63,7 +63,7 @@ static double array[4] = {
     4.0
 };
 
-int test_body(void)
+static int test_body(void)
 {
 int i;
 double total;

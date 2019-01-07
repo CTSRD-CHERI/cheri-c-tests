@@ -37,12 +37,12 @@ typedef union {
 	__uintcap_t intptr;
 } PtrIntPair;
 
-unsigned get_int(PtrIntPair p)
+__noinline static unsigned get_int(PtrIntPair p)
 {
 	return p.intptr & (__uintcap_t)7;
 }
 
-PtrIntPair set_int(PtrIntPair p, int val)
+__noinline static PtrIntPair set_int(PtrIntPair p, int val)
 {
 	val &= 7;
 	p.intptr &= (__uintcap_t)~7LL;
@@ -50,7 +50,7 @@ PtrIntPair set_int(PtrIntPair p, int val)
 	return p;
 }
 
-void *get_pointer(PtrIntPair p)
+__noinline static void *get_pointer(PtrIntPair p)
 {
 	return (void*)(p.intptr & (__uintcap_t)~7LL);
 }

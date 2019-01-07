@@ -70,17 +70,17 @@ void test_setup(void);
 #endif
 
 #ifndef assert_eq
-#define assert_eq(a, b) assert((a) == (b))
+#define assert_eq(a, b) assert((long)(a) == (long)(b))
 #endif
 #ifndef assert_eq_cap
 #define assert_eq_cap(a, b) assert((a) == (b))
 #endif
 
 #define ASSERT_HAS_PERMISSION(x, perm) \
-	assert_eq((__builtin_cheri_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __), __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __)
+	assert_eq((__builtin_cheri_perms_get(x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __), __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __)
 
 #define ASSERT_HAS_NOT_PERMISSION(x, perm) \
-	assert_eq((__builtin_cheri_perms_get((void*)x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __), 0)
+	assert_eq((__builtin_cheri_perms_get(x) & __CHERI_CAP_PERMISSION_PERMIT_ ## perm ## __), 0)
 
 // Dumps a value into a specified register.  Useful for debugging test cases.
 #define DEBUG_DUMP_REG(regno, val) \

@@ -26,8 +26,9 @@
  */
 #include "cheri_c_test.h"
 
+#ifndef _SIZE_T_DECLARED
 typedef __SIZE_TYPE__ size_t;
-
+#endif
 // Currently, memcpy is called smemcpy.
 // #define memcpy smemcpy
 
@@ -80,7 +81,7 @@ static void check(struct Test *t, int start, int end)
 static void invalidate(struct Test *t1)
 {
 	unsigned char *x = (unsigned char*)t1;
-	for (int i=0 ; i<sizeof(*t1) ; i++)
+	for (unsigned i=0 ; i<sizeof(*t1) ; i++)
 	{
 		*x = 0xa5;
 	}

@@ -72,7 +72,7 @@ static void printstuff(int argpairs, ...)
 		char *p = va_arg(ap, void*);
 		assert_eq(x, i);
 		assert(__builtin_cheri_tag_get(p));
-		assert_eq_cap(p, (void*)ptrs[i]);
+		assert_eq_cap(p, __DEVOLATILE(const void*, ptrs[i]));
 		assert_eq(*p, str[i]);
 	}
 	va_end(ap);
@@ -97,6 +97,8 @@ static void check_fp(int intarg, ...)
 	for (int i = 0; i < intarg; i++)
 		incfp();
 	assert_eq(gint, intarg);
+#else
+	(void)incfp;
 #endif
 	va_end(ap);
 }

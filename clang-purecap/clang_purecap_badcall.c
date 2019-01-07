@@ -33,6 +33,8 @@
 #include "cheri_c_test.h"
 
 typedef void(*fnptr)(void);
+extern int a;
+extern fnptr not_a_function;
 int a;
 fnptr not_a_function = (fnptr)&a;
 
