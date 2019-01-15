@@ -75,7 +75,6 @@ void print_impl(struct print_info* info)
 		DEBUG_MSG(cp);
 	}
 	assert_eq(faults, 1);
-
 }
 
 static void printstuff(int num_args, ...)
