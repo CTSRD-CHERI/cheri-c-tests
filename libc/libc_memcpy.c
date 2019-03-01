@@ -30,6 +30,18 @@
 #include <string.h>
 #include "cheri_c_test.h"
 
+/*
+ * memcpy() needs to be a separate function so that the compiler cannot optimize
+ * away memcpy calls or use inlined loops (since we are then no longer testing
+ * the memcpy() implementation). We could also compile this file with
+ * -fno-builtin but a linker error due to a missing function is easier to diagnose.
+ */
+#ifdef TEST_COMPILER_MEMCPY
+#define cheritest_memcpy __builtin_memcpy
+#else
+extern void* cheritest_memcpy(void*, const void*, size_t);
+#endif
+
 // Test structure which will be memcpy'd.  Contains data and a capability in
 // the middle.  The capability must be aligned, but memcpy should work for any
 // partial copy of this structure that includes the capability, as long as both
@@ -80,25 +92,25 @@ BEGIN_TEST(libc_memcpy)
 	t1.y = &t2;
 	invalidate(&t2);
 	// Simple case: aligned start and end
-	void *cpy = memcpy(t1.y, &t1, sizeof(t1));
+	void *cpy = cheritest_memcpy(t1.y, &t1, sizeof(t1));
 	assert_eq_cap((void*)cpy, &t2);
 	check(&t2, 0, 32);
 	invalidate(&t2);
 	// Test that it still works with an unaligned start...
-	cpy = memcpy(&t2.pad0[3], &t1.pad0[3], sizeof(t1) - 3);
+	cpy = cheritest_memcpy(&t2.pad0[3], &t1.pad0[3], sizeof(t1) - 3);
 	assert_eq_cap((void*)cpy, &t2.pad0[3]);
 	check(&t2, 3, 32);
 	// ...or an unaligned end...
-	cpy = memcpy(&t2, &t1, sizeof(t1) - 3);
+	cpy = cheritest_memcpy(&t2, &t1, sizeof(t1) - 3);
 	assert_eq_cap((void*)cpy, &t2);
 	check(&t2, 0, 29);
 	// ...or both...
-	cpy = memcpy(&t2.pad0[3], &t1.pad0[3], sizeof(t1) - 6);
+	cpy = cheritest_memcpy(&t2.pad0[3], &t1.pad0[3], sizeof(t1) - 6);
 	assert_eq_cap((void*)cpy, &t2.pad0[3]);
 	check(&t2, 3, 29);
 	invalidate(&t2);
 	// ...and finally a case where the alignment is different for both?
-	cpy = memcpy(&t2, &t1.pad0[1], sizeof(t1) - 1);
+	cpy = cheritest_memcpy(&t2, &t1.pad0[1], sizeof(t1) - 1);
 	assert_eq_cap((void*)cpy, &t2);
 	// This should have invalidated the capability
 	assert_eq(__builtin_cheri_tag_get(t2.y), 0);
@@ -110,25 +122,25 @@ BEGIN_TEST(libc_memcpy)
 	}
 	invalidate(&t2);
 	// Simple case: aligned start and end
-	void *copy = memcpy(&t2, &t1, sizeof(t1));
+	void *copy = cheritest_memcpy(&t2, &t1, sizeof(t1));
 	assert_eq_cap(copy, &t2);
 	check(&t2, 0, 32);
 	invalidate(&t2);
 	// Test that it still works with an unaligned start...
-	copy = memcpy(&t2.pad0[3], &t1.pad0[3], sizeof(t1) - 3);
+	copy = cheritest_memcpy(&t2.pad0[3], &t1.pad0[3], sizeof(t1) - 3);
 	assert_eq_cap(copy, &t2.pad0[3]);
 	check(&t2, 3, 32);
 	// ...or an unaligned end...
-	copy = memcpy(&t2, &t1, sizeof(t1) - 3);
+	copy = cheritest_memcpy(&t2, &t1, sizeof(t1) - 3);
 	assert_eq_cap(copy, &t2);
 	check(&t2, 0, 29);
 	// ...or both...
-	copy = memcpy(&t2.pad0[3], &t1.pad0[3], sizeof(t1) - 6);
+	copy = cheritest_memcpy(&t2.pad0[3], &t1.pad0[3], sizeof(t1) - 6);
 	assert_eq_cap(copy, &t2.pad0[3]);
 	check(&t2, 3, 29);
 	invalidate(&t2);
 	// ...and finally a case where the alignment is different for both?
-	copy = memcpy(&t2, &t1.pad0[1], sizeof(t1) - 1);
+	copy = cheritest_memcpy(&t2, &t1.pad0[1], sizeof(t1) - 1);
 	assert_eq_cap(copy, &t2);
 	// This should have invalidated the capability
 	assert(!__builtin_cheri_tag_get(t2.y));
@@ -145,7 +157,7 @@ BEGIN_TEST(libc_memcpy)
 
 	// aligned base, unaligned offset + base
 	invalidate(&t2);
-	cpy = memcpy(
+	cpy = cheritest_memcpy(
 		__builtin_cheri_offset_increment(&t2, 3),
 		__builtin_cheri_offset_increment(&t1, 3),
 		sizeof(t1)-6

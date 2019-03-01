@@ -44,8 +44,21 @@ static volatile char *buffer[] = {
 	&pointees[9],
 };
 
+/*
+ * memmove() needs to be a separate function so that the compiler cannot optimize
+ * away memmove calls or use inlined loops (since we are then no longer testing
+ * the memmove() implementation). We could also compile this file with
+ * -fno-builtin but a linker error due to a missing function is easier to diagnose.
+ */
+#ifdef TEST_COMPILER_MEMMOVE
+#define cheritest_memmove __builtin_memmove
+#else
+extern void* cheritest_memmove(void*, const void*, size_t);
+#endif
+
+
 BEGIN_TEST(libc_memmove)
-	memmove(buffer, &buffer[2], sizeof(buffer) - 2*sizeof(char*));
+	cheritest_memmove(buffer, &buffer[2], sizeof(buffer) - 2*sizeof(char*));
 	for (int i=0 ; i<8 ; i++)
 	{
 		assert_eq(*buffer[i], '0' + i + 2);
