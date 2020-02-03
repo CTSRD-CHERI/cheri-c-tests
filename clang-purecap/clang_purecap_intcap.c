@@ -56,8 +56,9 @@ BEGIN_TEST(clang_purecap_intcap)
 	foo -= 50;
 	assert_eq((*(char*)foo), '5');
 	assert_eq(__builtin_cheri_offset_get((void*)foo), 5);
-	// Valid capabilities are strictly ordered after invalid ones
-	assert((__uintcap_t)0xffffffffffffffffULL > (__uintcap_t)foo && "Tag bits should not be included in relational comparisons");
+	// Valid capabilities are not strictly ordered after invalid ones
+	// We only compare the virtual address
+	assert(0xffffffffffffffffULL > (__uintcap_t)foo);
 	assert((__uintcap_t)0 < (__uintcap_t)foo && "Tag bits should not be included in relational comparisons");
 	assert_eq_cap((void*)one, (void*)(__intcap_t)1);
 	// When casted to an int it should always be one
