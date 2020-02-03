@@ -53,6 +53,7 @@ BEGIN_TEST(clang_purecap_uintcapmath)
 #pragma clang diagnostic ignored "-Wcheri-bitwise-operations"
 #pragma clang diagnostic ignored "-Wcheri-capability-misuse"
 #pragma clang diagnostic ignored "-Wcheri-provenance"
+#pragma clang diagnostic ignored "-Wcheri-intcap-arithmetic"
 #pragma clang diagnostic ignored "-Wunknown-warning-option"
 #endif
 	_TEST_INT_TYPE	target;
