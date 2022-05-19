@@ -58,7 +58,7 @@ BEGIN_TEST(clang_hybrid_cursor)
 		42*sizeof(int));
 
 	// Check that the base is correctly set to the start of the array
-	assert((vaddr_t)buffer == __builtin_cheri_base_get(b));
+	assert((ptraddr_t)buffer == __builtin_cheri_base_get(b));
 
 	// Check that the offset is correctly set to the start of the array
 	assert(0 == __builtin_cheri_offset_get(b));
